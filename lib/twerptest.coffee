@@ -1,36 +1,20 @@
 assert = require "assert"
 
 class exports.TwerpTest
-  constructor: ( ) ->
+  constructor: ( @errcallback, @passcallback, @allcallback ) ->
   setup: ( ) ->
   teardown: ( ) ->
 
-  display: ( results ) ->
-    longest_test_name = 0
-
-    for test, details of results
-      if test.length > longest_test_name
-        longest_test_name = test.length
-
-    for test, details of results
-      spaces = Array( longest_test_name - test.length + 2 ).join( " " )
-      out =  "#{test}:#{spaces}#{details.passed}/#{details.expected } passed "
-      out += "(#{details.failed} failed)"
-
-      console.log out
-
-  expected: ( count, wait=false ) ->
-    @run_tests[ @current ].expected = count
-    @run_tests[ @current ].wait = wait
-
-  done: ( callback ) =>
+  done: ( expected, wait ) =>
     current  = @run_tests[ @current ]
     total    = current.total
-    expected = current.expected
+
+    # let a displayer know we're done
+    current.expected = expected
 
     if total < expected
-      if current.wait is true
-        setTimeout this.done, 100, callback
+      if wait
+        setTimeout this.done, 100, expected, wait
       else
         throw new Error "Ran #{total} which is less than #{expected}."
     else if total > expected
@@ -38,9 +22,9 @@ class exports.TwerpTest
     else
       # we're actually done!
       this.teardown()
-      callback? and callback( @run_tests )
+      @allcallback?( @run_tests )
 
-  run: ( callback ) ->
+  run: ( ) ->
     this.setup()
 
     for prop, func of this
@@ -56,16 +40,7 @@ class exports.TwerpTest
         passed: 0
         total: 0
 
-      try
-        this[ prop ]()
-      catch e
-        @run_tests[ prop ].error = e
-
-      # let the user know they need to call expected
-      unless @run_tests[ @current ].expected?
-        throw new Error "Make sure you call expected() for '#{@current}'"
-
-      this.done callback
+      this[ prop ]()
 
 assert_functions = [
   "fail",
@@ -86,9 +61,10 @@ for func in assert_functions
       try
         assert[ func ].apply this, args
         @run_tests[ @current ].passed++
+        @passcallback?( )
       catch e
         @run_tests[ @current ].failed++
-        throw e
+        ( @run_tests[ @current ].errors or= [ ] ).push e
+        @errcallback?( e )
       finally
-        console.log this
         @run_tests[ @current ].total++
