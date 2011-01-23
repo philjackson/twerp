@@ -19,7 +19,7 @@ class exports.TwerpTest
 
       console.log out
 
-  expected: ( count, wait ) ->
+  expected: ( count, wait=false ) ->
     @run_tests[ @current ].expected = count
     @run_tests[ @current ].wait = wait
 
@@ -29,8 +29,8 @@ class exports.TwerpTest
     expected = current.expected
 
     if total < expected
-      if current.wait?
-        setTimeout this.done, callback
+      if current.wait is true
+        setTimeout this.done, 100, callback
       else
         throw new Error "Ran #{total} which is less than #{expected}."
     else if total > expected
@@ -38,7 +38,7 @@ class exports.TwerpTest
     else
       # we're actually done!
       this.teardown()
-      callback( @run_tests )
+      callback? and callback( @run_tests )
 
   run: ( callback ) ->
     this.setup()
@@ -65,7 +65,7 @@ class exports.TwerpTest
       unless @run_tests[ @current ].expected?
         throw new Error "Make sure you call expected() for '#{@current}'"
 
-      this.done( 0, callback )
+      this.done callback
 
 assert_functions = [
   "fail",
@@ -90,4 +90,5 @@ for func in assert_functions
         @run_tests[ @current ].failed++
         throw e
       finally
+        console.log this
         @run_tests[ @current ].total++

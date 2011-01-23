@@ -3,7 +3,10 @@ TwerpTest = require( "../lib/twerptest" ).TwerpTest
 
 class TwerpItself extends TwerpTest
   testClassCreation: ( ) ->
-    this.expected 2, true
+    this.expected 1, true
+
+    f = ( x ) => this.ok x
+    setTimeout f, 1000, 1
 
     this.ok 1
 
