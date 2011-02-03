@@ -1,4 +1,6 @@
-JS=lib/twerptest.js
+JS=lib/twerptest.js \
+   lib/runner.js \
+   lib/runner/simple.js
 
 all: $(JS)
 
