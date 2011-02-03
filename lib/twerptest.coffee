@@ -1,6 +1,8 @@
 assert = require "assert"
 
 class exports.TwerpTest
+  @isTwerpTest = true
+
   constructor: ( @errcallback, @passcallback, @allcallback ) ->
   setup: ( ) ->
   teardown: ( ) ->
