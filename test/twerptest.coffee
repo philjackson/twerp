@@ -5,7 +5,7 @@ torn_down = 0
 
 class TwerpItself extends TwerpTest
   setup: ( ) ->
-    this.setup_has_run = 1
+    @setup_has_run = 1
 
   testClassCreation: ( ) ->
     f = ( x ) => this.ok x
