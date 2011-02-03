@@ -15,6 +15,7 @@ class exports.TwerpTest
     if total < expected
       if wait
         setTimeout this.done, 100, expected, wait
+        return false
       else
         throw new Error "Ran #{total} which is less than #{expected}."
     else if total > expected
