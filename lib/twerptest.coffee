@@ -24,35 +24,47 @@ class exports.TwerpTest
 
     if total < expected
       if wait
+        @ready = false
         setTimeout this.done, 100, expected, wait
-        return false
+        return @ready
       else
         throw new Error "Ran #{total} which is less than #{expected}."
     else if total > expected
       throw new Error "Ran #{total} which is more than #{expected}."
     else
-      # we're actually done!
-      this.teardown()
+      @ready = true
 
       # get results back
       this.emit "done", @current, current
 
+      # we're actually done!
+      this.teardown()
+
+  individualRun: ( prop ) =>
+    unless @ready
+      setTimeout this.individualRun, 100, prop
+      return @ready
+
+    # used by the assertion functions
+    @current = prop
+
+    # setup the object for holding run assertions
+    @run_tests or= { }
+    @run_tests[ @current ] =
+      failed: 0
+      passed: 0
+      total: 0
+
+    this.setup()
+    this[ @current ]()
+
   run: ( ) ->
+    @ready = true
+
     for prop, func of this
       continue unless /^test[_ A-Z]/.exec prop
 
-      # used by the assertion functions
-      @current = prop
-
-      # setup the object for holding run assertions
-      @run_tests or= { }
-      @run_tests[ @current ] =
-        failed: 0
-        passed: 0
-        total: 0
-
-      this.setup()
-      this[ @current ]()
+      this.individualRun( prop )
 
 assert_functions = [
   "fail",
