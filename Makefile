@@ -10,7 +10,7 @@ clean:
 %.js: %.coffee
 	coffee -b -c $<
 
-test:
+test: $(JS)
 	coffee test/twerptest.coffee
 
 .PHONY: clean test
