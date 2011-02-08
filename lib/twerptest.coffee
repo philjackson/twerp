@@ -27,9 +27,7 @@ class exports.TwerpTest
       this.teardown()
       @allcallback?( @run_tests )
 
-  run: ( ) ->
-    this.setup()
-
+  run: ( callback ) ->
     for prop, func of this
       continue unless /^test[_ A-Z]/.exec prop
 
@@ -43,7 +41,10 @@ class exports.TwerpTest
         passed: 0
         total: 0
 
+      this.setup()
       this[ prop ]()
+
+      callback( @run_tests[ prop ] )
 
 assert_functions = [
   "fail",
