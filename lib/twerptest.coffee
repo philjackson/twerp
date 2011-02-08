@@ -23,12 +23,9 @@ class exports.TwerpTest
     current.expected = expected
 
     if total < expected
-      if wait
-        @ready = false
-        setTimeout this.done, 100, expected, wait
-        return @ready
-      else
-        throw new Error "Ran #{total} which is less than #{expected}."
+      @ready = false
+      setTimeout this.done, 100, expected, wait
+      return @ready
     else if total > expected
       throw new Error "Ran #{total} which is more than #{expected}."
     else

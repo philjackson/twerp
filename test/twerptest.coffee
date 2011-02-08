@@ -1,40 +1,47 @@
 assert = require "assert"
 TwerpTest = require( "../lib/twerptest" ).TwerpTest
 
-torn_down = 0
-
 class TwerpItself extends TwerpTest
-  setup: ( ) ->
-    @setup_has_run = 1
-
-  testClassCreation: ( ) ->
-    f = ( x ) => this.ok x
-    setTimeout f, 500, 1
-
-    this.equal torn_down, 0
-    this.equal @setup_has_run, 1
+  testOne: ( ) ->
     this.ok 1
     this.equal 1, 2
 
-    this.done 5, true
+    this.done 2
 
-  teardown: ( ) ->
-    torn_down = 1
+  testTwo: ( ) ->
+    f = ( x ) => this.ok x
+    setTimeout f, 500, 1
 
-test = new TwerpItself null, null, ( res ) ->
-  # five expected
-  assert.equal res.testClassCreation.expected, 5
+    this.ok 1
+    this.equal 1, 2
 
-  # one failure
-  assert.equal res.testClassCreation.failed, 1
+    this.done 3
 
-  # three passes
-  assert.equal res.testClassCreation.passed, 4
+  testThree: ( ) ->
+    this.ok 2
+    this.ok 1
+    this.equal 1, 2
 
-  # one error
-  assert.equal res.testClassCreation.errors.length, 1
+    this.done 3
 
-  # torn down (note the test in the actual class)
-  assert.equal torn_down, 1
+test = new TwerpItself()
+
+order = [ ]
+test.on "done", ( cls, res ) ->
+  order.push cls
+
+  if cls is "testOne"
+    assert.equal res.expected, 2
+
+  else if cls is "testTwo"
+    assert.equal res.expected, 3
+    assert.equal res.failed, 1
+    assert.equal res.passed, 2
+    assert.equal res.errors.length, 1
+
+  else if cls is "testThree"
+    assert.equal res.expected, 3
+    # make sure they all run and in order
+    assert.deepEqual order, [ "testOne", "testTwo", "testThree" ]
 
 test.run()
