@@ -18,12 +18,9 @@ class exports.Runner
       # if it's a test, queue it
       if func.isTwerpTest
         do ( cls ) =>
-          @tests[ cls ] = new func null, null, ( res ) =>
-            @results[ cls ] = res
+          @tests[ cls ] = new func
 
   run: ( ) ->
     for cls, test of @tests
-      test.run( this.display )
-
-  display: ( res ) ->
-    console.log res
+      test.on "done", this.display
+      test.run( )

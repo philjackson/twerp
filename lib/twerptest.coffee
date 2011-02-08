@@ -1,9 +1,17 @@
+EE = require( "events" ).EventEmitter
 assert = require "assert"
 
 class exports.TwerpTest
   @isTwerpTest = true
 
-  constructor: ( @errcallback, @passcallback, @allcallback ) ->
+  constructor: ( ) ->
+    @ee = new EE()
+
+    # pass over the on method (TODO: is this the idomatic way of doing
+    # this?)
+    @on = @ee.on
+    @emit = @ee.emit
+
   setup: ( ) ->
   teardown: ( ) ->
 
@@ -11,7 +19,7 @@ class exports.TwerpTest
     current  = @run_tests[ @current ]
     total    = current.total
 
-    # let a displayer know we're done
+    # let a runner know we're done
     current.expected = expected
 
     if total < expected
@@ -25,9 +33,11 @@ class exports.TwerpTest
     else
       # we're actually done!
       this.teardown()
-      @allcallback?( @run_tests )
 
-  run: ( callback ) ->
+      # get results back
+      this.emit "done", @current, current
+
+  run: ( ) ->
     for prop, func of this
       continue unless /^test[_ A-Z]/.exec prop
 
@@ -36,15 +46,13 @@ class exports.TwerpTest
 
       # setup the object for holding run assertions
       @run_tests or= { }
-      @run_tests[ prop ] =
+      @run_tests[ @current ] =
         failed: 0
         passed: 0
         total: 0
 
       this.setup()
-      this[ prop ]()
-
-      callback( @run_tests[ prop ] )
+      this[ @current ]()
 
 assert_functions = [
   "fail",
@@ -65,10 +73,8 @@ for func in assert_functions
       try
         assert[ func ].apply this, args
         @run_tests[ @current ].passed++
-        @passcallback?( )
       catch e
         @run_tests[ @current ].failed++
         ( @run_tests[ @current ].errors or= [ ] ).push e
-        @errcallback?( e )
       finally
         @run_tests[ @current ].total++
