@@ -1,6 +1,6 @@
 class exports.Runner
   constructor: ( ) ->
-    @tests = { }
+    @alltests = { }
     @results = { }
 
     @cNorm  = "\u001B[39m"
@@ -17,10 +17,11 @@ class exports.Runner
     for cls, func of require filename
       # if it's a test, queue it
       if func.isTwerpTest
-        do ( cls ) =>
-          @tests[ cls ] = new func
+        @alltests[ filename ] or= { }
+        @alltests[ filename ][ cls ] = new func
 
   run: ( ) ->
-    for cls, test of @tests
-      test.on "done", this.display
-      test.run( )
+    for filename, tests in @alltests
+      for cls, test of tests
+        test.on "done", this.display
+        test.run( )
