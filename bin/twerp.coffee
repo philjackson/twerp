@@ -1,5 +1,7 @@
 # grab the args we want
 
+Simple = require( "../lib/runner/simple" ).Simple
+
 parseopts = ( options ) ->
   switches = [ ]
   args     = [ ]
@@ -17,7 +19,11 @@ parseopts = ( options ) ->
 
   return { switches:  switches, arguments: args }
 
-options = parseopts( process.ARGV.slice 2 )
+cwd = process.cwd()
 
-for file in options.arguments
-  console.log file
+options = parseopts( process.ARGV.slice 2 )
+runner = new Simple()
+
+# load the files into the runner
+runner.loadFile "#{cwd}/#{file}" for file in options.arguments
+runner.run()
