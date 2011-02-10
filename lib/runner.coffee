@@ -21,7 +21,7 @@ class exports.Runner
         @alltests[ filename ][ cls ] = new func
 
   run: ( ) ->
-    for filename, tests in @alltests
+    for filename, tests of @alltests
       for cls, test of tests
         test.on "done", this.display
         test.run( )
