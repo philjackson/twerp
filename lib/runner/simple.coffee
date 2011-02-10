@@ -3,5 +3,5 @@ TwerpTest = require( "../../lib/twerptest" ).TwerpTest
 Runner = require( "../runner" ).Runner
 
 class exports.Simple extends Runner
-  display: ( name, res ) ->
-    console.log res
+  display: ( filename, name, res ) ->
+    sys.puts "#{filename}: #{name}"

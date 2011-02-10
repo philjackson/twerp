@@ -14,11 +14,13 @@ class exports.Runner
     "#{@cRed}#{text}#{@cNorm}"
 
   loadFile: ( filename ) ->
-    for cls, func of require filename
+    cwd = process.cwd()
+
+    for cls, func of require "#{cwd}/#{filename}"
       # if it's a test, queue it
       if func.isTwerpTest
         @alltests[ filename ] or= { }
-        @alltests[ filename ][ cls ] = new func
+        @alltests[ filename ][ cls ] = new func filename
 
   run: ( ) ->
     for filename, tests of @alltests

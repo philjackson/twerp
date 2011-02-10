@@ -19,11 +19,9 @@ parseopts = ( options ) ->
 
   return { switches:  switches, arguments: args }
 
-cwd = process.cwd()
-
 options = parseopts( process.ARGV.slice 2 )
 runner = new Simple()
 
 # load the files into the runner
-runner.loadFile "#{cwd}/#{file}" for file in options.arguments
+runner.loadFile file for file in options.arguments
 runner.run()

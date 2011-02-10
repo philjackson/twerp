@@ -1,11 +1,14 @@
-EE = require( "events" ).EventEmitter
+EE     = require( "events" ).EventEmitter
 assert = require "assert"
+path   = require "path"
 
 class exports.TwerpTest
   @isTwerpTest = true
 
-  constructor: ( ) ->
+  constructor: ( filename ) ->
     @ee = new EE()
+
+    @filename = path.normalize filename
 
     # pass over the on method (TODO: is this the idomatic way of doing
     # this?)
@@ -32,7 +35,7 @@ class exports.TwerpTest
       @ready = true
 
       # get results back
-      this.emit "done", @current, current
+      this.emit "done", @filename, @current, current
 
       # we're actually done!
       this.teardown()
