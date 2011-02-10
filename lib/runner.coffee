@@ -1,11 +1,11 @@
 class exports.Runner
   constructor: ( ) ->
-    @alltests = { }
-    @results = { }
-
     @cNorm  = "\u001B[39m"
     @cRed   = "\u001B[31m"
     @cGreen = "\u001B[32m"
+
+    @alltests = { }
+    @results = { }
 
   green: ( text ) ->
     "#{@cGreen}#{text}#{@cNorm}"
