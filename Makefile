@@ -9,6 +9,7 @@ all: $(JS) $(BIN)
 $(BIN): $(BIN).coffee
 	coffee -b -c $(BIN).coffee \
     && mv $(BIN).js $(BIN) \
+	  && sed -i '1i\#!/usr/bin/env node' $(BIN) \
     && chmod +x $(BIN)
 
 clean:

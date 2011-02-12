@@ -1,0 +1,15 @@
+{
+  "name": "twerp",
+  "description": "Super simple class based testing for node.",
+  "version": "0.0.1",
+  "bugs": { "web" : "http://github.com/philjackson/twerp/issues" },
+  "directories": { "lib": "./lib" },
+  "bin": { "twerp": "./bin/twerp" },
+  "main": "./lib/twerptest",
+  "repository": { "type": "git",
+                  "url": "https://philjackson@github.com/philjackson/twerp.git" },
+  "maintainers": [ { "name": "Phil Jackson",
+                     "web": "https://github.com/philjackson" } ],
+  "contributors": [ { "name": "Phil Jackson",
+                      "web": "https://github.com/philjackson" } ]
+}
