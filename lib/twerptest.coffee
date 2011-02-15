@@ -5,7 +5,7 @@ path   = require "path"
 class exports.TwerpTest
   @isTwerpTest = true
 
-  constructor: ( filename ) ->
+  constructor: ( filename, @classname ) ->
     @ee = new EE()
 
     @filename = path.normalize filename
@@ -35,7 +35,7 @@ class exports.TwerpTest
       @ready = true
 
       # get results back
-      this.emit "done", @filename, @current, current
+      this.emit "done", @filename, @classname, @current, current
 
       # we're actually done!
       this.teardown()

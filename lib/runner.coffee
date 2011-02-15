@@ -22,7 +22,7 @@ class exports.Runner
       # if it's a test, queue it
       if func.isTwerpTest
         @alltests[ filename ] or= { }
-        @alltests[ filename ][ cls ] = new func filename
+        @alltests[ filename ][ cls ] = new func filename, cls
 
   run: ( ) ->
     for filename, tests of @alltests

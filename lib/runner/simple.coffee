@@ -5,12 +5,12 @@ TwerpTest = require( "../../lib/twerptest" ).TwerpTest
 Runner = require( "../runner" ).Runner
 
 class exports.Simple extends Runner
-  display: ( filename, name, res ) =>
+  display: ( filename, classname, name, res ) =>
     has_failed = res.failed > 0
     only_failures = @options.only_output_failures
 
     if ( only_failures and has_failed ) or not only_failures
-      util.print "#{filename} - #{name}: "
+      util.print "#{filename}: #{classname } - #{name}: "
 
       counts = if has_failed
         this.red "#{res.passed} / #{res.expected}"
