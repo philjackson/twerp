@@ -23,7 +23,11 @@ be:
 Then compiled with coffee and run with the bundled twerp binary will
 produce:
 
+    $ twerp blah.js
     blah.js: Numbers - testOne: 2 / 2 passed ( 0 failed )
+
+You can also run coffee scripts directly (assuming you have
+coffee-script installed).
 
 ## Writing tests
 
@@ -36,3 +40,6 @@ methods what you want.
 
 A 'setup' method will run before each test method and 'teardown' will
 run after each test method.
+
+Tests will be run in order but you might find the output isn't in
+order.

@@ -64,7 +64,7 @@ class exports.TwerpTest
     for prop, func of this
       continue unless /^test[_ A-Z]/.exec prop
 
-      this.individualRun( prop )
+      this.individualRun prop
 
 assert_functions = [
   "fail",
