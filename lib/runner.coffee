@@ -25,7 +25,16 @@ class exports.Runner
   loadFile: ( filename ) ->
     cwd = process.cwd()
 
-    for cls, func of require "#{cwd}/#{filename}"
+    if /.coffee$/.exec filename
+      if this.canCoffee()
+        console.log( "coffee" )
+
+    actual = if /^\//.exec filename
+      filename
+    else
+      "#{cwd}/#{filename}"
+
+    for cls, func of require actual
       # if it's a test, queue it
       if func.isTwerpTest
         @alltests[ filename ] or= { }
