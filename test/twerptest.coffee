@@ -27,19 +27,19 @@ class TwerpItself extends TwerpTest
 test = new TwerpItself()
 
 order = [ ]
-test.on "done", ( cls, res ) ->
-  order.push cls
+test.on "done", ( filename, classname, name, res ) ->
+  order.push name
 
-  if cls is "testOne"
+  if name is "testOne"
     assert.equal res.expected, 2
 
-  else if cls is "testTwo"
+  else if name is "testTwo"
     assert.equal res.expected, 3
     assert.equal res.failed, 1
     assert.equal res.passed, 2
     assert.equal res.errors.length, 1
 
-  else if cls is "testThree"
+  else if name is "testThree"
     assert.equal res.expected, 3
     # make sure they all run and in order
     assert.deepEqual order, [ "testOne", "testTwo", "testThree" ]
