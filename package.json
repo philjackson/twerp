@@ -1,7 +1,7 @@
 {
   "name": "twerp",
   "description": "Super simple class based testing for node.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bugs": { "web" : "http://github.com/philjackson/twerp/issues" },
   "directories": { "lib": "./lib" },
   "bin": { "twerp": "./bin/twerp" },
