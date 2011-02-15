@@ -26,8 +26,7 @@ class exports.Runner
     cwd = process.cwd()
 
     if /.coffee$/.exec filename
-      if this.canCoffee()
-        console.log( "coffee" )
+      this.canCoffee()
 
     actual = if /^\//.exec filename
       filename
