@@ -15,6 +15,13 @@ class exports.Runner
   red: ( text ) ->
     "#{@cRed}#{text}#{@cNorm}"
 
+  canCoffee: ( ) ->
+    @coffee or= try
+      require "coffee-script"
+      true
+    catch e
+      true
+
   loadFile: ( filename ) ->
     cwd = process.cwd()
 
