@@ -39,8 +39,12 @@ class exports.Runner
         @alltests[ filename ] or= { }
         @alltests[ filename ][ cls ] = new func filename, cls
 
+    true
+
   run: ( ) ->
     for filename, tests of @alltests
       for cls, test of tests
         test.on "done", this.display
         test.run( )
+
+    true
