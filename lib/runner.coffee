@@ -15,18 +15,17 @@ class exports.Runner
   red: ( text ) ->
     "#{@cRed}#{text}#{@cNorm}"
 
-  canCoffee: ( ) ->
-    @coffee or= try
+  loadCoffee: ( ) ->
+    @coffeeloaded or= try
       require "coffee-script"
-      true
-    catch e
+    finally
       true
 
   loadFile: ( filename ) ->
     cwd = process.cwd()
 
     if /.coffee$/.exec filename
-      this.canCoffee()
+      this.loadCoffee()
 
     actual = if /^\//.exec filename
       filename
