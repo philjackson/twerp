@@ -1,4 +1,4 @@
-assert = require "assert"
+assert    = require( "../vendor/assert-extras" )
 TwerpTest = require( "../lib/twerptest" ).TwerpTest
 
 class TwerpItself extends TwerpTest
@@ -30,10 +30,7 @@ class TwerpItself extends TwerpTest
     @tornDown[ @current ] = 1
     done( )
 
-finished = [ ]
-test = do ( finished ) ->
-  new TwerpItself ( ) ->
-    finished.push 1
+test = new TwerpItself( )
 
 assert.deepEqual test.gatherRunnables( ), [
   [ "setup",    false ]
@@ -45,22 +42,24 @@ assert.deepEqual test.gatherRunnables( ), [
   [ "finished", false ]]
 
 # actually run the test
-test.run()
 
-# finished was executed
+finished = [ ]
+
+do ( finished ) ->
+  test.run ( results ) ->
+    finished.push true
+
+    # testOne results
+    assert.equal results.testOne.expected, 3
+    assert.equal results.testOne.count, 2
+
+    # testTwo results
+    assert.equal results.testTwo.expected, 4
+    assert.equal results.testTwo.count, 4
+
+    # testTwo raises two errors
+    assert.equal results.testTwo.errors.length, 2
+    assert.equal results.testTwo.errors[0].message, "raise exception"
+    assert.equal results.testTwo.errors[1].message, "another exception"
+
 assert.equal finished.length, 1
-
-# testOne results
-assert.equal test.tests.testOne.expected, 3
-assert.equal test.tests.testOne.count, 2
-
-# testTwo results
-assert.equal test.tests.testTwo.expected, 4
-assert.equal test.tests.testTwo.count, 4
-
-# testTwo raises two errors
-assert.equal test.tests.testTwo.errors.length, 2
-assert.equal test.tests.testTwo.errors[0].message, "raise exception"
-assert.equal test.tests.testTwo.errors[1].message, "another exception"
-
-# teardowns

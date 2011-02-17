@@ -19,6 +19,7 @@ clean:
 	coffee -b -c $<
 
 test: $(JS)
-	coffee test/twerptest.coffee
+	coffee test/twerptest.coffee && \
+    coffee test/runner.coffee
 
 .PHONY: clean test

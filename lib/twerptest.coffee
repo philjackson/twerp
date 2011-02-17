@@ -5,9 +5,9 @@ path   = require "path"
 class exports.TwerpTest
   @isTwerpTest = true
 
-  constructor: ( @finished_callback ) ->
-    @queue       = this.gatherRunnables()
-    @tests       = { }
+  constructor: ( ) ->
+    @queue = this.gatherRunnables()
+    @tests = { }
 
   setup: ( callback ) -> callback( )
   teardown: ( callback ) -> callback( )
@@ -15,7 +15,7 @@ class exports.TwerpTest
 
   getNext: ( ) -> @queue.shift( )
 
-  run: ( ) ->
+  run: ( @finished_callback ) ->
     if current = @getNext( )
       @runTest current
 
@@ -34,7 +34,8 @@ class exports.TwerpTest
         # run the next one
         @runTest next_test
 
-  finished: ( ) -> @finished_callback( )
+  finished: ( ) ->
+    @finished_callback( @tests )
 
   gatherRunnables: ( ) ->
     runnables = [ ]
