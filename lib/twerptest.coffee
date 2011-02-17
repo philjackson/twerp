@@ -46,6 +46,7 @@ class exports.TwerpTest
 
 # import the assertions from assert
 assert_functions = [
+  # normal
   "fail"
   "ok"
   "equal"
@@ -57,6 +58,8 @@ assert_functions = [
   "throws"
   "doesNotThrow"
   "ifError"
+
+  # extras
   "isNull"
   "isNotNull"
   "isTypeOf"
