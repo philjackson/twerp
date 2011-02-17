@@ -1,5 +1,5 @@
 EE     = require( "events" ).EventEmitter
-assert = require "assert"
+assert = require "../vendor/assert-extras"
 path   = require "path"
 
 class exports.TwerpTest
@@ -56,7 +56,31 @@ assert_functions = [
   "notStrictEqual"
   "throws"
   "doesNotThrow"
-  "ifError" ]
+  "ifError"
+  "isNull"
+  "isNotNull"
+  "isTypeOf"
+  "isNotTypeOf"
+  "isObject"
+  "isFunction"
+  "isString"
+  "isBoolean"
+  "isNumber"
+  "isUndefined"
+  "isNotUndefined"
+  "isArray"
+  "isNaN"
+  "isNotNaN"
+  "match"
+  "noMatch"
+  "isPrototypeOf"
+  "isNotPrototypeOf"
+  "isWritable"
+  "isNotWritable"
+  "isConfigurable"
+  "isNotConfigurable"
+  "isEnumerable"
+  "isNotEnumerable" ]
 
 for func in assert_functions
   do ( func ) ->

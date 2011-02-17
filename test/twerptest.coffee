@@ -3,6 +3,7 @@ TwerpTest = require( "../lib/twerptest" ).TwerpTest
 
 class TwerpItself extends TwerpTest
   setup: ( done ) ->
+    @tornDown       = { }
     @have_run_setup = 1
 
     done( )
@@ -24,6 +25,10 @@ class TwerpItself extends TwerpTest
 
   # this should never run
   invalidTest: ( ) ->
+
+  tearDown: ( done ) ->
+    @tornDown[ @current ] = 1
+    done( )
 
 test = new TwerpItself()
 
@@ -50,3 +55,5 @@ assert.equal test.tests.testTwo.count, 4
 assert.equal test.tests.testTwo.errors.length, 2
 assert.equal test.tests.testTwo.errors[0].message, "raise exception"
 assert.equal test.tests.testTwo.errors[1].message, "another exception"
+
+# teardowns
