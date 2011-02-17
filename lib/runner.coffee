@@ -21,13 +21,13 @@ class exports.Runner
 
   display: console.log
 
-  runClass: ( func ) ->
+  runClass: ( [ cls, func ] ) ->
     next = @getNext( )
     obj  = new func( )
 
     do ( next ) =>
       obj.run ( results ) =>
-        @display results
+        @display [ cls, results ]
 
         # unless we're the last, daisy chain to the next function
         @runClass next if next
@@ -48,6 +48,6 @@ class exports.Runner
     for cls, func of require actual
       # if it's a test, queue it
       if func.isTwerpTest
-        @queue.push func
+        @queue.push [ cls, func ]
 
     return true
