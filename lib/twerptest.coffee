@@ -3,8 +3,9 @@ assert = require "../vendor/assert-extras"
 path   = require "path"
 
 class exports.TwerpTest
-  constructor: ( ) ->
-    @isTwerpTest = true
+  @isTwerpTest = true
+
+  constructor: ( @finished_callback ) ->
     @queue       = this.gatherRunnables()
     @tests       = { }
 
@@ -33,6 +34,8 @@ class exports.TwerpTest
         # run the next one
         @runTest next_test
 
+  finished: ( ) -> @finished_callback( )
+
   gatherRunnables: ( ) ->
     runnables = [ ]
 
@@ -41,6 +44,10 @@ class exports.TwerpTest
       runnables.push [ "setup",    false ],
                      [ prop,       true  ],
                      [ "teardown", false ]
+
+    # once the entire class is done we need to let the runner know so
+    # that it can run the next class
+    runnables.push [ "finished", false ]
 
     return runnables
 

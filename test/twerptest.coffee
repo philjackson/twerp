@@ -30,7 +30,10 @@ class TwerpItself extends TwerpTest
     @tornDown[ @current ] = 1
     done( )
 
-test = new TwerpItself()
+finished = [ ]
+test = do ( finished ) ->
+  new TwerpItself ( ) ->
+    finished.push 1
 
 assert.deepEqual test.gatherRunnables( ), [
   [ "setup",    false ]
@@ -38,10 +41,14 @@ assert.deepEqual test.gatherRunnables( ), [
   [ "teardown", false ]
   [ "setup",    false ]
   [ "testTwo",  true  ]
-  [ "teardown", false ]]
+  [ "teardown", false ]
+  [ "finished", false ]]
 
 # actually run the test
 test.run()
+
+# finished was executed
+assert.equal finished.length, 1
 
 # testOne results
 assert.equal test.tests.testOne.expected, 3
