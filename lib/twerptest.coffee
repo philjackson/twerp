@@ -1,92 +1,103 @@
 EE     = require( "events" ).EventEmitter
-assert = require "assert"
+assert = require "../vendor/assert-extras"
 path   = require "path"
 
 class exports.TwerpTest
-  @isTwerpTest = true
+  constructor: ( ) ->
+    @isTwerpTest = true
+    @queue       = this.gatherRunnables()
+    @tests       = { }
 
-  constructor: ( filename, @classname ) ->
-    @ee = new EE()
+  setup: ( callback ) -> callback( )
+  teardown: ( callback ) -> callback( )
+  done: ( ) ->
 
-    @filename = path.normalize filename
-
-    # pass over the on method (TODO: is this the idomatic way of doing
-    # this?)
-    @on = @ee.on
-    @emit = @ee.emit
-
-  setup: ( ) ->
-  teardown: ( ) ->
-
-  done: ( expected, wait ) =>
-    current  = @run_tests[ @current ]
-    total    = current.total
-
-    # let a runner know we're done
-    current.expected = expected
-
-    if total < expected
-      @ready = false
-      setTimeout this.done, 100, expected, wait
-      return @ready
-    else if total > expected
-      throw new Error "Ran #{total} which is more than #{expected}."
-    else
-      @ready = true
-
-      # get results back
-      this.emit "done", @filename, @classname, @current, current
-
-      # we're actually done!
-      this.teardown()
-
-  individualRun: ( prop ) =>
-    unless @ready
-      setTimeout this.individualRun, 100, prop
-      return @ready
-
-    # used by the assertion functions
-    @current = prop
-
-    # setup the object for holding run assertions
-    @run_tests or= { }
-    @run_tests[ @current ] =
-      failed: 0
-      passed: 0
-      total: 0
-
-    this.setup()
-    this[ @current ]()
+  getNext: ( ) -> @queue.shift( )
 
   run: ( ) ->
-    @ready = true
+    if current = @getNext( )
+      @runTest current
+
+  runTest: ( [ @current, capture ] ) ->
+    next_test = @getNext( ) or [ "done", false ]
+
+    do ( next_test, capture ) =>
+      # capture the results if we're asked to (results won't be caught
+      # for setup, teardown or done
+      @tests[ @current ] or= { } if capture
+
+      this[ @current ] ( expected ) =>
+        # log the expected (if we allowed it above)
+        @tests[ @current ]?.expected = expected
+
+        # run the next one
+        @runTest next_test
+
+  gatherRunnables: ( ) ->
+    runnables = [ ]
 
     for prop, func of this
       continue unless /^test[_ A-Z]/.exec prop
+      runnables.push [ "setup",    false ],
+                     [ prop,       true  ],
+                     [ "teardown", false ]
 
-      this.individualRun prop
+    return runnables
 
+# import the assertions from assert
 assert_functions = [
-  "fail",
-  "ok",
-  "equal",
-  "notEqual",
-  "deepEqual",
-  "notDeepEqual",
-  "strictEqual",
-  "notStrictEqual",
-  "throws",
-  "doesNotThrow",
-  "ifError" ]
+  # normal
+  "fail"
+  "ok"
+  "equal"
+  "notEqual"
+  "deepEqual"
+  "notDeepEqual"
+  "strictEqual"
+  "notStrictEqual"
+  "throws"
+  "doesNotThrow"
+  "ifError"
+
+  # extras
+  "isNull"
+  "isNotNull"
+  "isTypeOf"
+  "isNotTypeOf"
+  "isObject"
+  "isFunction"
+  "isString"
+  "isBoolean"
+  "isNumber"
+  "isUndefined"
+  "isNotUndefined"
+  "isArray"
+  "isNaN"
+  "isNotNaN"
+  "match"
+  "noMatch"
+  "isPrototypeOf"
+  "isNotPrototypeOf"
+  "isWritable"
+  "isNotWritable"
+  "isConfigurable"
+  "isNotConfigurable"
+  "isEnumerable"
+  "isNotEnumerable" ]
 
 for func in assert_functions
   do ( func ) ->
     exports.TwerpTest.prototype[ func ] = ( args... ) ->
       try
         assert[ func ].apply this, args
-        @run_tests[ @current ].passed++
       catch e
-        @run_tests[ @current ].failed++
-        ( @run_tests[ @current ].errors or= [ ] ).push e
+        # add any errors to the error array
+        if cur = @tests[ @current ]
+          ( cur.errors or= [ ] ).push e
       finally
-        @run_tests[ @current ].total++
+        # increase the total run count
+        if cur = @tests[ @current ]
+          cur.count = if cur.count
+            cur.count + 1
+          else
+            1
