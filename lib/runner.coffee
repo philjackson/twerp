@@ -1,8 +1,12 @@
 class exports.Runner
   constructor: ( @options, filenames ) ->
-    @cNorm  = "\u001B[39m"
-    @cRed   = "\u001B[31m"
-    @cGreen = "\u001B[32m"
+    # colour output if we're allowed
+    if @options[ "no-color" ] or @options[ "no-colour" ]
+      @cNorm = @cRed = @cGreen = ""
+    else
+      @cNorm  = "\u001B[39m"
+      @cRed   = "\u001B[31m"
+      @cGreen = "\u001B[32m"
 
     # will contain a list of classes to run
     @queue  = [ ]
