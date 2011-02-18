@@ -98,10 +98,15 @@ for func in assert_functions
     exports.TwerpTest.prototype[ func ] = ( args... ) ->
       try
         assert[ func ].apply this, args
+        if cur = @tests[ @current ]
+          cur.passed = if cur.passed
+            cur.passed + 1
+          else
+            1
       catch e
         # add any errors to the error array
         if cur = @tests[ @current ]
-          ( cur.errors or= [ ] ).push e
+          cur.failed = ( cur.errors or= [ ] ).push e
       finally
         # increase the total run count
         if cur = @tests[ @current ]
