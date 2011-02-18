@@ -18,13 +18,20 @@ class exports.Runner
 
   getNext: ( ) -> @queue.shift( )
 
-  run: ( ) ->
+  run: ( @finished ) ->
     if current = @getNext( )
       @runClass current
+
+  onPass: ( ) ->
+  onFail: ( e ) ->
 
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
     obj  = new func( @options )
+
+    # stuff a runner implementor might override.
+    obj.on "pass", @onPass
+    obj.on "fail", @onFail
 
     do ( next ) =>
       obj.run ( results ) =>
@@ -38,7 +45,10 @@ class exports.Runner
               process.exit 1
 
         # unless we're the last, daisy chain to the next function
-        @runClass next if next
+        if next
+          @runClass next
+        else
+          @finished?( )
 
   loadFile: ( filename ) ->
     cwd = process.cwd()
