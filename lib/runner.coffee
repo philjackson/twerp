@@ -18,7 +18,7 @@ class exports.Runner
 
   getNext: ( ) -> @queue.shift( )
 
-  run: ( ) ->
+  run: ( @finished ) ->
     if current = @getNext( )
       @runClass current
 
@@ -45,7 +45,10 @@ class exports.Runner
               process.exit 1
 
         # unless we're the last, daisy chain to the next function
-        @runClass next if next
+        if next
+          @runClass next
+        else
+          @finished?( )
 
   loadFile: ( filename ) ->
     cwd = process.cwd()
