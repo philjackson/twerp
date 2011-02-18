@@ -99,10 +99,8 @@ for func in assert_functions
       try
         assert[ func ].apply this, args
         if cur = @tests[ @current ]
-          cur.passed = if cur.passed
-            cur.passed + 1
-          else
-            1
+          cur.passed or= 0
+          cur.passed++
       catch e
         # add any errors to the error array
         if cur = @tests[ @current ]
@@ -110,7 +108,5 @@ for func in assert_functions
       finally
         # increase the total run count
         if cur = @tests[ @current ]
-          cur.count = if cur.count
-            cur.count + 1
-          else
-            1
+          cur.count or= 0
+          cur.count++
