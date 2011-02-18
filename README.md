@@ -65,3 +65,48 @@ A 'setup' method will run before each test method and 'teardown' will
 run after each test method.
 
 Tests will be run in order. No async magic here.
+
+## Assertion functions
+
+Bundled with twerp are the following assert functions:
+
+### As with assert.js
+
+ * fail
+ * ok
+ * equal
+ * notEqual
+ * deepEqual
+ * notDeepEqual
+ * strictEqual
+ * notStrictEqual
+ * throws
+ * doesNotThrow
+ * ifError
+
+### As with assert-extras
+
+ * isNull
+ * isNotNull
+ * isTypeOf
+ * isNotTypeOf
+ * isObject
+ * isFunction
+ * isString
+ * isBoolean
+ * isNumber
+ * isUndefined
+ * isNotUndefined
+ * isArray
+ * isNaN
+ * isNotNaN
+ * match
+ * noMatch
+ * isPrototypeOf
+ * isNotPrototypeOf
+ * isWritable
+ * isNotWritable
+ * isConfigurable
+ * isNotConfigurable
+ * isEnumerable
+ * isNotEnumerable
