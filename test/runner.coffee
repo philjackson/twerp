@@ -11,11 +11,21 @@ runner.display = ( filename, classname, results ) ->
   assert.equal filename, "./test/simpletestclass.coffee"
   all_results[ classname ] = results
 
+passes = 0
+runner.onPass = ( ) -> passes++
+
+fails = 0
+runner.onFail = ( ) -> fails++
+
 ran_finished = false
 runner.run ( ) ->
   # Simple test
   assert.ok simpletest = all_results.SimpleTest
   assert.ok simpletest.testSimpleOne
+
+  # 8 passes, 2 failures
+  assert.equal passes, 8
+  assert.equal fails, 2
 
   # counts
   assert.equal simpletest.testSimpleOne.passed, 1
