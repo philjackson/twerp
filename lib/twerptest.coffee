@@ -9,6 +9,11 @@ class exports.TwerpTest
     @queue = this.gatherRunnables()
     @tests = { }
 
+    # emitter for failures/passes
+    @ee = new EE()
+    @on = @ee.on
+    @emit = @ee.emit
+
   setup: ( callback ) -> callback( )
   teardown: ( callback ) -> callback( )
   done: ( ) ->
@@ -101,10 +106,12 @@ for func in assert_functions
         if cur = @tests[ @current ]
           cur.passed or= 0
           cur.passed++
+        @emit "pass"
       catch e
         # add any errors to the error array
         if cur = @tests[ @current ]
           cur.failed = ( cur.errors or= [ ] ).push e
+        @emit "fail", e
       finally
         # increase the total run count
         if cur = @tests[ @current ]

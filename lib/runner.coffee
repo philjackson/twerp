@@ -22,9 +22,16 @@ class exports.Runner
     if current = @getNext( )
       @runClass current
 
+  onPass: ( ) ->
+  onFail: ( e ) ->
+
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
     obj  = new func( @options )
+
+    # stuff a runner implementor might override.
+    obj.on "pass", @onPass
+    obj.on "fail", @onFail
 
     do ( next ) =>
       obj.run ( results ) =>
