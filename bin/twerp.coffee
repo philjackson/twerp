@@ -1,5 +1,6 @@
 # grab the args we want
 
+util   = require "util"
 Simple = require( "../lib/runner/simple" ).Simple
 
 parseopts = ( options ) ->
@@ -20,7 +21,21 @@ parseopts = ( options ) ->
   return { switches:  switches, arguments: args }
 
 options = parseopts( process.ARGV.slice 2 )
-runner = new Simple { }, options.arguments
 
-# load the files into the runner
+getRunnerOpts = ( options ) ->
+  runner_options = { }
+
+  valid_switches =
+    "exit-on-failure": [ true, "Exit on the first instance of failure." ]
+
+  for swtch in options.switches
+    if details = valid_switches[ swtch ]
+      runner_options[ swtch ] = details[0]
+    else
+      util.puts "Don't know about '#{swtch}'."
+      process.exit 1
+
+   return runner_options
+
+runner = new Simple getRunnerOpts( options ), options.arguments
 runner.run( )
