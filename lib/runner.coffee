@@ -22,8 +22,6 @@ class exports.Runner
     if current = @getNext( )
       @runClass current
 
-  display: ( filename, cls, results ) ->
-
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
     obj  = new func( )

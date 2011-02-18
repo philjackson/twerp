@@ -11,11 +11,14 @@ class exports.Simple extends Runner
     unless filename is @current_filename
       util.puts ( @current_filename = filename ) + ":"
 
-    util.puts " #{classname}"
+    util.puts " * #{classname}:"
     for test, res of results
-      colour = if has_failed = res.errors?
-        @red
-      else
-        @green
+      sys.print "    #{test}: "
 
-      util.puts "  #{colour test}"
+      # red/green might be no-op if no-colour set
+      extra = if res.failed > 0
+        @red "#{res.failed}/#{res.count} failed"
+      else
+        @green "#{res.passed}/#{res.count} passed"
+
+      util.puts "#{extra}."
