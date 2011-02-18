@@ -9,25 +9,46 @@ Really simple, class based testing framework for node.
 Written with coffeescript in mind so a really simple example use might
 be:
 
-    require "twerp"
+    class exports.SimpleTest extends TwerpTest
+      testSimpleOne: ( done ) ->
+        @ok 1
+        @ok null
 
-    class Numbers extends TwerpTest
-      testOne: ( ) ->
-        this.ok 1, "One is ok."
-        this.equal 1, ( 2 - 1 ), "One is equal to 2 - 1"
+        done( 2 )
 
-        # we expect two tests to have run, done will wait until two
-        # tests have run
-        done 2
+      testSimpleTwo: ( done ) ->
+        @ok 1
 
-Then compiled with coffee and run with the bundled twerp binary will
-produce:
+        done( 1 )
+
+      testSimpleThree: ( done ) ->
+        @ok 1
+
+        done( 1 )
+
+      testSimpleFour: ( done ) ->
+        @ok 1
+
+        done( 1 )
+
+      testSimpleFive: ( done ) ->
+        @ok 1
+        @ok 1
+        @ok 1
+
+        done( 3 )
+
+    class exports.AnotherSimpleTest extends TwerpTest
+      testAnotherSimpleOne: ( done ) ->
+        @ok 1
+        @ok null
+
+        done( 2 )
+
+
+Then run with 'twerp' (you can run coffee directly) and you're off:
 
     $ twerp blah.js
-    blah.js: Numbers - testOne: 2 / 2 passed ( 0 failed )
-
-You can also run coffee scripts directly (assuming you have
-coffee-script installed).
 
 ## Writing tests
 
@@ -36,10 +57,11 @@ one class which inherits from TwerpTest.
 
 Any methods defined in your class which begin with "test" will be run
 as tests. Other than "setup" or "teardown" you can call 'private'
-methods what you want.
+methods what you want. The callback received by each method must be
+called when it's finished and should also take the number of tests you
+expected to run.
 
 A 'setup' method will run before each test method and 'teardown' will
 run after each test method.
 
-Tests will be run in order but you might find the output isn't in
-order.
+Tests will be run in order. No async magic here.
