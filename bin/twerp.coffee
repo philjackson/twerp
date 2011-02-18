@@ -20,8 +20,7 @@ parseopts = ( options ) ->
   return { switches:  switches, arguments: args }
 
 options = parseopts( process.ARGV.slice 2 )
-runner = new Simple()
+runner = new Simple { }, options.arguments
 
 # load the files into the runner
-runner.loadFile file for file in options.arguments
-runner.run()
+runner.run( )

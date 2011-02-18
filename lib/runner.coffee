@@ -7,11 +7,14 @@ class exports.Runner
     # will contain a list of classes to run
     @queue  = [ ]
 
+    # not loaded yet
+    @coffee_loaded = false
+
     # load the files we're given
     @loadFile f for f in filenames
 
-  green: ( text ) -> "#{@cGreen}#{text}#{@cNorm}"
-  red:   ( text ) -> "#{@cRed}#{text}#{@cNorm}"
+  green: ( text ) => "#{@cGreen}#{text}#{@cNorm}"
+  red:   ( text ) => "#{@cRed}#{text}#{@cNorm}"
 
   getNext: ( ) -> @queue.shift( )
 
@@ -19,7 +22,7 @@ class exports.Runner
     if current = @getNext( )
       @runClass current
 
-  display: console.log
+  display: ( filename, cls, results ) ->
 
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
@@ -27,7 +30,7 @@ class exports.Runner
 
     do ( next ) =>
       obj.run ( results ) =>
-        @display [ filename, cls, results ]
+        @display filename, cls, results
 
         # unless we're the last, daisy chain to the next function
         @runClass next if next
@@ -35,10 +38,11 @@ class exports.Runner
   loadFile: ( filename ) ->
     cwd = process.cwd()
 
-    # find a coffee script, load coffee
-    if /\.coffee$/.exec filename and not @coffee_loaded
+    # find a coffee script, load coffee. If the require throws an
+    # exception then so be it.
+    if /\.coffee$/.exec( filename ) and not @coffee_loaded
       require "coffee-script"
-      @coffee_loaded = 1
+      @coffee_loaded = true
 
     actual = if /^\//.exec filename
       filename
