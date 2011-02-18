@@ -66,11 +66,11 @@ run after each test method.
 
 Tests will be run in order. No async magic here.
 
-## Assertion functions
+### Assertion functions
 
 Bundled with twerp are the following assert functions:
 
-### As with assert.js
+#### As with assert.js
 
  * fail
  * ok
@@ -84,7 +84,7 @@ Bundled with twerp are the following assert functions:
  * doesNotThrow
  * ifError
 
-### As with assert-extras
+#### As with assert-extras
 
  * isNull
  * isNotNull
