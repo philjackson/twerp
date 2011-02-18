@@ -17,8 +17,7 @@ class exports.Simple extends Runner
 
       # red/green might be no-op if no-colour set
       extra = if res.failed > 0
-        @red "#{res.failed}/#{res.count} failed"
+        util.puts @red "#{res.failed}/#{res.count} failed:"
+        console.log err.stack for err in res.errors
       else
-        @green "#{res.passed}/#{res.count} passed"
-
-      util.puts "#{extra}."
+        util.puts @green "#{res.passed}/#{res.count} passed"
