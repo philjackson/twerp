@@ -24,11 +24,18 @@ class exports.Runner
 
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
-    obj  = new func( )
+    obj  = new func( @options )
 
     do ( next ) =>
       obj.run ( results ) =>
         @display filename, cls, results
+
+        # if the user put exit-on-failure on the commandline then
+        # here's the place to bail
+        if @options[ "exit-on-failure" ]
+          for test, details of results
+            if details.failed > 0
+              process.exit 1
 
         # unless we're the last, daisy chain to the next function
         @runClass next if next

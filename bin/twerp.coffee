@@ -26,7 +26,7 @@ getRunnerOpts = ( options ) ->
   runner_options = { }
 
   valid_switches =
-    "exit-on-failure": [ true, "Exit on the first instance of failure." ]
+    "exit-on-failure": [ true, "Exit as soon as a class fails." ]
 
   for swtch in options.switches
     if details = valid_switches[ swtch ]

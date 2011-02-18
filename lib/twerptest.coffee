@@ -5,7 +5,7 @@ path   = require "path"
 class exports.TwerpTest
   @isTwerpTest = true
 
-  constructor: ( ) ->
+  constructor: ( @options ) ->
     @queue = this.gatherRunnables()
     @tests = { }
 
