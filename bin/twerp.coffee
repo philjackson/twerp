@@ -18,6 +18,14 @@ parser.add "--no-color",
   type: "flag"
   help: "Turn off colour output if you're American."
 
+parser.add "--match-class",
+  type: "string"
+  help: "Only run classes whose names match STRING."
+
+parser.add "--match-function",
+  type: "string"
+  help: "Only run functions whose names match STRING."
+
 try
   options = parser.parse( )
 catch e

@@ -69,6 +69,11 @@ class exports.Runner
       "#{cwd}/#{filename}"
 
     for cls, func of require actual
+      # only run the class we were asked to
+      if @options.matchClass
+        re = new RegExp @options.matchClass
+        continue unless re.exec cls
+
       # if it's a test, queue it
       if func.isTwerpTest
         @queue.push [ filename, cls, func ]

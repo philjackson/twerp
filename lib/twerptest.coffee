@@ -47,6 +47,12 @@ class exports.TwerpTest
 
     for prop, func of this
       continue unless /^test[_ A-Z]/.exec prop
+
+      # only run the class we were asked to
+      if @options.matchFunction
+        re = new RegExp @options.matchFunction
+        continue unless re.exec prop
+
       runnables.push [ "setup",    false ],
                      [ prop,       true  ],
                      [ "teardown", false ]
