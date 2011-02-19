@@ -28,12 +28,13 @@ class exports.TwerpTest
     next_test = @getNext( ) or [ "done", false ]
 
     do ( next_test, capture ) =>
+      if previous_name = @current
+        @emit "endTest", previous_name
+        @current = null
+
       # capture the results if we're asked to (results won't be caught
       # for setup, teardown or done
       if capture
-        # emit the end of the last function
-        @emit "endTest", @current if @current
-
         @tests[ name ] or= { }
         @current = name
         @emit "startTest", name
