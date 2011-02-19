@@ -1,7 +1,7 @@
 # grab the args we want
 
 util   = require "util"
-Simple = require( "../lib/runner/simple" ).Simple
+Simple = require( "../lib/runner/minimal" ).Minimal
 sys    = require "sys"
 OptionParser = require( "../vendor/parseopt" ).OptionParser
 

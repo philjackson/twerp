@@ -30,7 +30,9 @@ class exports.TwerpTest
     do ( next_test, capture ) =>
       # capture the results if we're asked to (results won't be caught
       # for setup, teardown or done
-      @tests[ @current ] or= { } if capture
+      if capture
+        @tests[ @current ] or= { }
+        @emit "runTest", @current
 
       this[ @current ] ( expected ) =>
         # log the expected (if we allowed it above)

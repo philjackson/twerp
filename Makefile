@@ -1,5 +1,6 @@
 JS=lib/twerptest.js \
    lib/runner.js \
+   lib/runner/minimal.js \
    lib/runner/simple.js
 
 BIN=bin/twerp

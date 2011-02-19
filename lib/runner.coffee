@@ -27,15 +27,26 @@ class exports.Runner
       @runClass current
 
   onPass: ( ) ->
-  onFail: ( e ) ->
+  onFail: ( error ) ->
+
+  onStartTest: ( name ) ->
+  onStartClass: ( name ) ->
+  onStartFile: ( name ) ->
 
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
     obj  = new func( @options )
 
+    if @current_filename isnt filename
+      @onStartFile filename
+      @current_filename = filename
+
     # stuff a runner implementor might override.
     obj.on "pass", @onPass
     obj.on "fail", @onFail
+    obj.on "runTest", @onStartTest
+
+    @onStartClass( cls )
 
     do ( next ) =>
       obj.run ( results ) =>
