@@ -35,3 +35,9 @@ class exports.AnotherSimpleTest extends TwerpTest
     @ok null
 
     done( 2 )
+
+class exports.AvoidRunning extends TwerpTest
+  testBlah: ( done ) ->
+    @ok 1
+
+    done( 1 )

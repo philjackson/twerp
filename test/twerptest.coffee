@@ -63,3 +63,16 @@ do ( finished ) ->
     assert.equal results.testTwo.errors[1].message, "another exception"
 
 assert.equal finished.length, 1
+
+# test out the options
+test = new TwerpItself
+  matchFunction: "One"
+
+do ( finished ) ->
+  test.run ( results ) ->
+    finished.push true
+
+    # testTwo shouldn't run
+    assert.isUndefined results.testTwo
+
+assert.equal finished.length, 2
