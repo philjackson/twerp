@@ -1,7 +1,7 @@
 class exports.Runner
   constructor: ( @options, filenames ) ->
     # colour output if we're allowed
-    if @options[ "no-color" ] or @options[ "no-colour" ]
+    if @options.noColor or @options.noColour
       @cNorm = @cRed = @cGreen = ""
     else
       @cNorm  = "\u001B[39m"
@@ -43,7 +43,7 @@ class exports.Runner
 
         # if the user put exit-on-failure on the commandline then
         # here's the place to bail
-        if @options[ "exit-on-failure" ]
+        if @options[ "ExitOnFailure" ]
           for test, details of results
             if details.failed > 0
               process.exit 1

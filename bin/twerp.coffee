@@ -2,42 +2,27 @@
 
 util   = require "util"
 Simple = require( "../lib/runner/simple" ).Simple
+sys    = require "sys"
+OptionParser = require( "../vendor/parseopt" ).OptionParser
 
-parseopts = ( options ) ->
-  switches = [ ]
-  args     = [ ]
+parser = new OptionParser
+parser.add "--exit-on-failure",
+  type: "flag"
+  help: "Exit as soon as a class fails."
 
-  stop_taking_switches = false
+parser.add "--no-colour",
+  type: "flag"
+  help: "Turn off colour output."
 
-  for option in options
-    if stop_taking_switches or not /^--/.exec option
-      args.push option
-    else
-      if matches = /^--(\S+)/.exec option
-        switches.push matches[1]
-      else if /^--/.exec option
-        stop_taking_switches = true
+parser.add "--no-color",
+  type: "flag"
+  help: "Turn off colour output if you're American."
 
-  return { switches:  switches, arguments: args }
+try
+  options = parser.parse( )
+catch e
+  parser.usage()
+  process.exit 1
 
-options = parseopts( process.ARGV.slice 2 )
-
-getRunnerOpts = ( options ) ->
-  runner_options = { }
-
-  valid_switches =
-    "exit-on-failure": [ true, "Exit as soon as a class fails." ]
-    "no-colour":       [ true, "Turn off colour output." ]
-    "no-color":        [ true, "Turn off colour output if you're American." ]
-
-  for swtch in options.switches
-    if details = valid_switches[ swtch ]
-      runner_options[ swtch ] = details[0]
-    else
-      util.puts "Don't know about '#{swtch}'."
-      process.exit 1
-
-   return runner_options
-
-runner = new Simple getRunnerOpts( options ), options.arguments
+runner = new Simple options.options, options.arguments
 runner.run( )
