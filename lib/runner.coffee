@@ -73,6 +73,7 @@ class exports.Runner
         if next
           @runClass next
         else
+          @onEndFile @current_filename
           @finished?( )
 
   loadFile: ( filename ) ->
