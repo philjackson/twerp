@@ -62,7 +62,7 @@ class exports.Runner
       obj.run ( results ) =>
         # if the user put exit-on-failure on the commandline then
         # here's the place to bail
-        if @options[ "ExitOnFailure" ]
+        if @options[ "exitOnFailure" ]
           for test, details of results
             if details.failed > 0
               process.exit 1
