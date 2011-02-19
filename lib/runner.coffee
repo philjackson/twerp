@@ -30,7 +30,10 @@ class exports.Runner
   onAssertionFail: ( error ) ->
 
   onStartTest: ( ) ->
+  onEndTest: ( ) ->
+
   onStartClass: ( ) ->
+  onEndClass: ( ) ->
 
   onStartFile: ( ) ->
   onEndFile: ( ) ->
@@ -49,7 +52,9 @@ class exports.Runner
     # stuff a runner implementor might override.
     obj.on "pass", @onAssertionPass
     obj.on "fail", @onAssertionFail
-    obj.on "runTest", @onStartTest
+
+    obj.on "startTest", @onStartTest
+    obj.on "endTest", @onEndTest
 
     @onStartClass( cls )
 

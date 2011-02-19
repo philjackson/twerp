@@ -24,19 +24,23 @@ class exports.TwerpTest
     if current = @getNext( )
       @runTest current
 
-  runTest: ( [ @current, capture ] ) ->
+  runTest: ( [ name, capture ] ) ->
     next_test = @getNext( ) or [ "done", false ]
 
     do ( next_test, capture ) =>
       # capture the results if we're asked to (results won't be caught
       # for setup, teardown or done
       if capture
-        @tests[ @current ] or= { }
-        @emit "runTest", @current
+        # emit the end of the last function
+        @emit "endTest", @current if @current
 
-      this[ @current ] ( expected ) =>
+        @tests[ name ] or= { }
+        @current = name
+        @emit "startTest", name
+
+      this[ name ] ( expected ) =>
         # log the expected (if we allowed it above)
-        @tests[ @current ]?.expected = expected
+        @tests[ name ]?.expected = expected
 
         # run the next one
         @runTest next_test
