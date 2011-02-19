@@ -110,3 +110,11 @@ Bundled with twerp are the following assert functions:
  * isNotConfigurable
  * isEnumerable
  * isNotEnumerable
+
+# options
+
+ * --exit-on-failure: Exit as soon as a class fails.
+ * --no-colour: Turn off colour output.
+ * --no-color: Turn off colour output if you're American.
+ * --match-class: Only run classes whose names match STRING.
+ * --match-function: Only run functions whose names match STRING.
