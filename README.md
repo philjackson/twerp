@@ -1,6 +1,7 @@
 # Twerp
 
-Really simple, class based testing framework for node.
+Really simple, class based testing framework for node and
+Coffeescript.
 
 ## Synopsis
 
