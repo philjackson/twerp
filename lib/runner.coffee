@@ -26,32 +26,35 @@ class exports.Runner
     if current = @getNext( )
       @runClass current
 
-  onPass: ( ) ->
-  onFail: ( error ) ->
+  onAssertionPass: ( ) ->
+  onAssertionFail: ( error ) ->
 
-  onStartTest: ( name ) ->
-  onStartClass: ( name ) ->
-  onStartFile: ( name ) ->
+  onStartTest: ( ) ->
+  onStartClass: ( ) ->
+
+  onStartFile: ( ) ->
+  onEndFile: ( ) ->
 
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
     obj  = new func( @options )
 
     if @current_filename isnt filename
+      if @current_filename?
+        @onEndFile @current_filename
+
       @onStartFile filename
       @current_filename = filename
 
     # stuff a runner implementor might override.
-    obj.on "pass", @onPass
-    obj.on "fail", @onFail
+    obj.on "pass", @onAssertionPass
+    obj.on "fail", @onAssertionFail
     obj.on "runTest", @onStartTest
 
     @onStartClass( cls )
 
     do ( next ) =>
       obj.run ( results ) =>
-        @display filename, cls, results
-
         # if the user put exit-on-failure on the commandline then
         # here's the place to bail
         if @options[ "ExitOnFailure" ]
