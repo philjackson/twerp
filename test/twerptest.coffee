@@ -30,7 +30,7 @@ class TwerpItself extends TwerpTest
     @tornDown[ @current ] = 1
     done( )
 
-test = new TwerpItself( )
+test = new TwerpItself { }
 
 assert.deepEqual test.gatherRunnables( ), [
   [ "setup",    false ]
