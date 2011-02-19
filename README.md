@@ -12,36 +12,21 @@ be:
     class exports.SimpleTest extends TwerpTest
       testSimpleOne: ( done ) ->
         @ok 1
-        @ok null
+
+        # the optional message will help you when debugging failures
+        @ok null, "Test that null is true"
 
         done( 2 )
 
       testSimpleTwo: ( done ) ->
-        @ok 1
+        @equal 1, 2
 
         done( 1 )
-
-      testSimpleThree: ( done ) ->
-        @ok 1
-
-        done( 1 )
-
-      testSimpleFour: ( done ) ->
-        @ok 1
-
-        done( 1 )
-
-      testSimpleFive: ( done ) ->
-        @ok 1
-        @ok 1
-        @ok 1
-
-        done( 3 )
 
     class exports.AnotherSimpleTest extends TwerpTest
       testAnotherSimpleOne: ( done ) ->
-        @ok 1
-        @ok null
+        @isNull null
+        @equal 1, 3 - 2, "Three minus two is one"
 
         done( 2 )
 
