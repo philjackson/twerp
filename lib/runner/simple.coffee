@@ -5,19 +5,19 @@ TwerpTest = require( "../../lib/twerptest" ).TwerpTest
 Runner = require( "../runner" ).Runner
 
 class exports.Simple extends Runner
-  @current_filename = null
+  onStartFile: ( filename ) -> util.puts "#{filename}:"
+  onEndFile: ( filename ) -> util.puts ""
 
-  display: ( filename, classname, results ) ->
-    unless filename is @current_filename
-      util.puts ( @current_filename = filename ) + ":"
+  onStartClass: ( classname ) -> util.puts "  #{classname}:"
+  onEndClass: ( classname ) ->
 
-    util.puts " * #{classname}:"
-    for test, res of results
-      sys.print "    #{test}: "
+  onStartTest: ( testname ) -> sys.print "    #{testname}: "
+  onEndTest: ( testname ) -> util.puts ""
 
-      # red/green might be no-op if no-colour set
-      extra = if res.failed > 0
-        util.puts @red "#{res.failed}/#{res.count} failed:"
-        console.log err.stack for err in res.errors
-      else
-        util.puts @green "#{res.passed}/#{res.count} passed"
+  onAssertionPass: ( ) => sys.print @green "."
+  onAssertionFail: ( e ) =>
+    spcr = "\n      "
+    errs = e.stack.split( "\n" )
+    errs[0] = @red errs[0]
+
+    sys.puts "#{spcr}#{errs.join( spcr )}"
