@@ -12,7 +12,8 @@ class exports.Simple extends Runner
   onEndClass: ( classname ) ->
 
   onStartTest: ( testname ) -> sys.print "    #{testname}: "
-  onEndTest: ( testname, res ) -> console.log res
+  onEndTest: ( testname, res ) ->
+    util.puts " #{res.passed}/#{res.count} passed."
 
   onAssertionPass: ( ) => sys.print @green "."
   onAssertionFail: ( e ) =>
@@ -20,4 +21,4 @@ class exports.Simple extends Runner
     errs = e.stack.split( "\n" )
     errs[0] = @red errs[0]
 
-    sys.puts "#{spcr}#{errs.join( spcr )}"
+    util.print "#{spcr}#{errs.join( spcr )}"
