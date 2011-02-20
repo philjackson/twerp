@@ -60,13 +60,6 @@ class exports.Runner
 
     do ( next, cls ) =>
       obj.run ( results ) =>
-        # if the user put exit-on-failure on the commandline then
-        # here's the place to bail
-        if @options[ "exitOnFailure" ]
-          for test, details of results
-            if details.failed > 0
-              process.exit 1
-
         @onEndClass( cls )
 
         # unless we're the last, daisy chain to the next function

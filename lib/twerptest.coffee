@@ -125,6 +125,11 @@ for func in assert_functions
         if cur = @tests[ @current ]
           cur.failed = ( cur.errors or= [ ] ).push e
         @emit "fail", e
+
+        # if the user put exit-on-failure on the commandline then
+        # here's the place to bail
+        if @options[ "exitOnFailure" ]
+          process.exit 1
       finally
         # increase the total run count
         if cur = @tests[ @current ]
