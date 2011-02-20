@@ -12,7 +12,7 @@ class exports.Simple extends Runner
   onEndClass: ( classname ) ->
 
   onStartTest: ( testname ) -> sys.print "    #{testname}: "
-  onEndTest: ( testname ) -> util.puts ""
+  onEndTest: ( testname, res ) -> console.log res
 
   onAssertionPass: ( ) => sys.print @green "."
   onAssertionFail: ( e ) =>

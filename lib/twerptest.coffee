@@ -29,7 +29,7 @@ class exports.TwerpTest
 
     do ( next_test, capture ) =>
       if previous_name = @current
-        @emit "endTest", previous_name
+        @emit "endTest", previous_name, @tests[ previous_name ]
         @current = null
 
       # capture the results if we're asked to (results won't be caught
