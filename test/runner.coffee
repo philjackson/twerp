@@ -8,15 +8,14 @@ runner = new Runner { matchClass: "Simple" },
 assert.ok runner
 
 all_results = { }
-runner.display = ( filename, classname, results ) ->
-  assert.equal filename, "./test/simpletestclass.coffee"
-  all_results[ classname ] = results
+
+runner.onEndClass = ( cls, results ) -> all_results[ cls ] = results
 
 passes = 0
-runner.onPass = ( ) -> passes++
+runner.onAssertionPass = ( ) -> passes++
 
 fails = 0
-runner.onFail = ( ) -> fails++
+runner.onAssertionFail = ( ) -> fails++
 
 ran_finished = false
 runner.run ( ) ->

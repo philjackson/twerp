@@ -24,17 +24,24 @@ class exports.TwerpTest
     if current = @getNext( )
       @runTest current
 
-  runTest: ( [ @current, capture ] ) ->
+  runTest: ( [ name, capture ] ) ->
     next_test = @getNext( ) or [ "done", false ]
 
     do ( next_test, capture ) =>
+      if previous_name = @current
+        @emit "endTest", previous_name, @tests[ previous_name ]
+        @current = null
+
       # capture the results if we're asked to (results won't be caught
       # for setup, teardown or done
-      @tests[ @current ] or= { } if capture
+      if capture
+        @tests[ name ] or= { }
+        @current = name
+        @emit "startTest", name
 
-      this[ @current ] ( expected ) =>
+      this[ name ] ( expected ) =>
         # log the expected (if we allowed it above)
-        @tests[ @current ]?.expected = expected
+        @tests[ name ]?.expected = expected
 
         # run the next one
         @runTest next_test
@@ -107,6 +114,8 @@ assert_functions = [
 for func in assert_functions
   do ( func ) ->
     exports.TwerpTest.prototype[ func ] = ( args... ) ->
+      errored = false
+
       try
         assert[ func ].apply this, args
         if cur = @tests[ @current ]
@@ -117,9 +126,17 @@ for func in assert_functions
         # add any errors to the error array
         if cur = @tests[ @current ]
           cur.failed = ( cur.errors or= [ ] ).push e
+
         @emit "fail", e
+        errored = true
       finally
         # increase the total run count
         if cur = @tests[ @current ]
           cur.count or= 0
           cur.count++
+
+        # if the user put exit-on-failure on the commandline then
+        # here's the place to bail
+        if errored and @options[ "exitOnFailure" ]
+          @emit "endTest", @current, cur
+          process.exit 1
