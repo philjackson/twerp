@@ -12,8 +12,17 @@ class exports.Simple extends Runner
   onEndClass: ( classname ) ->
 
   onStartTest: ( testname ) -> sys.print "    #{testname}: "
-  onEndTest: ( testname, res ) ->
-    util.puts " #{res.passed}/#{res.count} passed."
+  onEndTest: ( testname, res ) =>
+    msg = " #{res.passed}/#{res.count} passed"
+    if res.expected
+      colour = if res.expected isnt res.count
+        @red
+      else
+        @green
+
+      msg += " (#{colour res.expected} expected)"
+
+    util.puts "#{msg}."
 
   onAssertionPass: ( ) => sys.print @green "."
   onAssertionFail: ( e ) =>

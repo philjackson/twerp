@@ -20,7 +20,7 @@ class exports.SimpleTest extends TwerpTest
   testSimpleFour: ( done ) ->
     @ok 1
 
-    done( 1 )
+    done( 2 )  # one too many
 
   testSimpleFive: ( done ) ->
     @ok 1
