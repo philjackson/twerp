@@ -114,6 +114,8 @@ assert_functions = [
 for func in assert_functions
   do ( func ) ->
     exports.TwerpTest.prototype[ func ] = ( args... ) ->
+      errored = false
+
       try
         assert[ func ].apply this, args
         if cur = @tests[ @current ]
@@ -124,14 +126,17 @@ for func in assert_functions
         # add any errors to the error array
         if cur = @tests[ @current ]
           cur.failed = ( cur.errors or= [ ] ).push e
-        @emit "fail", e
 
-        # if the user put exit-on-failure on the commandline then
-        # here's the place to bail
-        if @options[ "exitOnFailure" ]
-          process.exit 1
+        @emit "fail", e
+        errored = true
       finally
         # increase the total run count
         if cur = @tests[ @current ]
           cur.count or= 0
           cur.count++
+
+        # if the user put exit-on-failure on the commandline then
+        # here's the place to bail
+        if errored and @options[ "exitOnFailure" ]
+          @emit "endTest", @current, cur
+          process.exit 1
