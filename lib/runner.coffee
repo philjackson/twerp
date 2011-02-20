@@ -60,7 +60,7 @@ class exports.Runner
 
     do ( next, cls ) =>
       obj.run ( results ) =>
-        @onEndClass cls
+        @onEndClass cls, results
 
         # unless we're the last, daisy chain to the next function
         if next
