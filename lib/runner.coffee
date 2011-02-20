@@ -56,11 +56,11 @@ class exports.Runner
     obj.on "startTest", @onStartTest
     obj.on "endTest", @onEndTest
 
-    @onStartClass( cls )
+    @onStartClass cls
 
     do ( next, cls ) =>
       obj.run ( results ) =>
-        @onEndClass( cls )
+        @onEndClass cls
 
         # unless we're the last, daisy chain to the next function
         if next
