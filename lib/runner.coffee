@@ -38,6 +38,8 @@ class exports.Runner
   onStartFile: ( ) ->
   onEndFile: ( ) ->
 
+  onEndRun: ( ) ->
+
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
     obj  = new func( @options )
@@ -68,7 +70,8 @@ class exports.Runner
         else
           @onEndFile @current_filename
           @current_filename = null
-          @finished?( )
+          @onEndRun( results )
+          @finished?( results )
 
   loadFile: ( filename ) ->
     cwd = process.cwd()

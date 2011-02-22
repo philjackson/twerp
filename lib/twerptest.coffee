@@ -14,6 +14,7 @@ class exports.TwerpTest
     @on = @ee.on
     @emit = @ee.emit
 
+  start: ( callback ) -> callback( )
   setup: ( callback ) -> callback( )
   teardown: ( callback ) -> callback( )
   done: ( ) ->
@@ -46,11 +47,11 @@ class exports.TwerpTest
         # run the next one
         @runTest next_test
 
-  finished: ( ) ->
+  finish: ( ) ->
     @finished_callback( @tests )
 
   gatherRunnables: ( ) ->
-    runnables = [ ]
+    runnables = [[ "start", false ]]
 
     for prop, func of this
       continue unless /^test[_ A-Z]/.exec prop
@@ -66,7 +67,7 @@ class exports.TwerpTest
 
     # once the entire class is done we need to let the runner know so
     # that it can run the next class
-    runnables.push [ "finished", false ]
+    runnables.push [ "finish", false ]
 
     return runnables
 

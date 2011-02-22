@@ -33,13 +33,14 @@ class TwerpItself extends TwerpTest
 test = new TwerpItself { }
 
 assert.deepEqual test.gatherRunnables( ), [
+  [ "start",    false ]
   [ "setup",    false ]
   [ "testOne",  true  ]
   [ "teardown", false ]
   [ "setup",    false ]
   [ "testTwo",  true  ]
   [ "teardown", false ]
-  [ "finished", false ]]
+  [ "finish",   false ]]
 
 # actually run the test
 

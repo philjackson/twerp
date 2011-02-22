@@ -31,3 +31,7 @@ class exports.Simple extends Runner
     errs[0] = @red errs[0]
 
     util.print "#{spcr}#{errs.join( spcr )}"
+
+  onEndRun: ( all_results ) ->
+    for test, results in all_results
+      console.log( test )
