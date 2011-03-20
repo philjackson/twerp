@@ -7,6 +7,7 @@ class exports.Runner
       @cNorm  = "\u001B[39m"
       @cRed   = "\u001B[31m"
       @cGreen = "\u001B[32m"
+      @cYellow = "\u001B[33m"
 
     # will contain a list of classes to run
     @queue  = [ ]
@@ -17,8 +18,9 @@ class exports.Runner
     # load the files we're given
     @loadFile f for f in filenames
 
-  green: ( text ) => "#{@cGreen}#{text}#{@cNorm}"
-  red:   ( text ) => "#{@cRed}#{text}#{@cNorm}"
+  green:  ( text ) => "#{@cGreen}#{text}#{@cNorm}"
+  red:    ( text ) => "#{@cRed}#{text}#{@cNorm}"
+  yellow: ( text ) => "#{@cYellow}#{text}#{@cNorm}"
 
   getNext: ( ) -> @queue.shift( )
 

@@ -5,11 +5,10 @@ TwerpTest = require( "../../lib/twerptest" ).TwerpTest
 Runner = require( "../runner" ).Runner
 
 class exports.Tiny extends Runner
-  onStartFile: ( filename )   => @filename = filename
+  onStartFile: ( filename )   => util.puts "#{filename}:"
   onStartClass: ( classname ) => @classname = classname
-  onStartTest: ( testname )   => sys.print "#{@filename} #{@classname} #{testname}: "
+  onStartTest: ( testname )   => sys.print " #{@classname} #{testname}: "
 
-  onEndFile: ( filename ) -> util.puts ""
   onEndTest: ( testname ) -> util.puts ""
 
   onAssertionPass: ( ) => sys.print @green "."
