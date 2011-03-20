@@ -1,8 +1,8 @@
 # grab the args we want
 
-util   = require "util"
-Simple = require( "../lib/runner/simple" ).Simple
-sys    = require "sys"
+util         = require "util"
+runners      = require "../lib/runner/"
+sys          = require "sys"
 OptionParser = require( "../vendor/parseopt" ).OptionParser
 
 parser = new OptionParser
@@ -26,11 +26,19 @@ parser.add "--match-function",
   type: "string"
   help: "Only run functions whose names match STRING."
 
+parser.add "--runner",
+  type:    "enum"
+  default: "simple"
+  values:  name for name, runner of runners
+  help:    "Which runner to use (where a runner controls output)."
+
 try
   options = parser.parse( )
 catch e
   parser.usage()
   process.exit 1
 
-runner = new Simple options.options, options.arguments
+# load up a runner
+name   = options.options.runner
+runner = new runners[ name ] options.options, options.arguments
 runner.run( )

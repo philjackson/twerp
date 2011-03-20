@@ -1,5 +1,6 @@
 JS=lib/twerptest.js \
    lib/runner.js \
+	 lib/runner/index.js \
    lib/runner/simple.js
 
 BIN=bin/twerp
@@ -23,3 +24,4 @@ test: $(JS)
     coffee test/runner.coffee
 
 .PHONY: clean test
+
