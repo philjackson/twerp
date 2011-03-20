@@ -9,6 +9,9 @@ class exports.Runner
       @cGreen = "\u001B[32m"
       @cYellow = "\u001B[33m"
 
+    @total_failed = 0
+    @total_passed = 0
+
     # will contain a list of classes to run
     @queue  = [ ]
 
@@ -40,8 +43,6 @@ class exports.Runner
   onStartFile: ( ) ->
   onEndFile: ( ) ->
 
-  onEndRun: ( ) ->
-
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
     obj  = new func( @options )
@@ -54,8 +55,13 @@ class exports.Runner
       @current_filename = filename
 
     # stuff a runner implementor might override.
-    obj.on "pass", @onAssertionPass
-    obj.on "fail", @onAssertionFail
+    obj.on "pass", ( ) =>
+      @total_passed++
+      @onAssertionPass( )
+
+    obj.on "fail", ( error ) =>
+      @total_failed++
+      @onAssertionFail( error )
 
     obj.on "startTest", @onStartTest
     obj.on "endTest", @onEndTest
@@ -72,8 +78,8 @@ class exports.Runner
         else
           @onEndFile @current_filename
           @current_filename = null
-          @onEndRun( results )
           @finished?( results )
+          @onRunEnd?( )
 
   loadFile: ( filename ) ->
     cwd = process.cwd()
