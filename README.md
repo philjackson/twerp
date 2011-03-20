@@ -52,6 +52,11 @@ run after each test method.
 
 Tests will be run in order. No async magic here.
 
+### Choosing a runner
+
+You can pick a runner (how the code is formatted) by using --runner=
+on the command line. For a list of available runners use --help.
+
 ### Assertion functions
 
 Bundled with twerp are the following assert functions:
@@ -99,8 +104,11 @@ Bundled with twerp are the following assert functions:
 
 # options
 
+ * --help: Help!
  * --exit-on-failure: Exit as soon as a class fails.
  * --no-colour: Turn off colour output.
  * --no-color: Turn off colour output if you're American.
  * --match-class: Only run classes whose names match STRING.
  * --match-function: Only run functions whose names match STRING.
+ * --runner: How output should be formatted. --help for a list.
+
