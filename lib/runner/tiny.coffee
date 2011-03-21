@@ -20,4 +20,6 @@ class exports.Tiny extends Runner
     util.print "#{spcr}#{errs.join( spcr )}"
 
   onRunEnd: ( summary ) =>
-    console.log( summary )
+    util.puts "Time taken: #{summary.time}"
+    util.puts "Passed:     #{summary.passed}"
+    util.puts "Failed:     #{summary.failed}"
