@@ -18,3 +18,6 @@ class exports.Tiny extends Runner
     errs[0] = @red errs[0]
 
     util.print "#{spcr}#{errs.join( spcr )}"
+
+  onRunEnd: ( summary ) =>
+    console.log( summary )

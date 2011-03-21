@@ -21,6 +21,8 @@ class exports.Runner
     # load the files we're given
     @loadFile f for f in filenames
 
+    @start_time = Date.now( )
+
   green:  ( text ) => "#{@cGreen}#{text}#{@cNorm}"
   red:    ( text ) => "#{@cRed}#{text}#{@cNorm}"
   yellow: ( text ) => "#{@cYellow}#{text}#{@cNorm}"
@@ -79,7 +81,26 @@ class exports.Runner
           @onEndFile @current_filename
           @current_filename = null
           @finished?( results )
-          @onRunEnd?( )
+
+          summary =
+            passed: @total_passed
+            failed: @total_failed
+            time: @calcTime( Date.now( ) - @start_time )
+
+          @onRunEnd?( summary )
+
+  calcTime: ( ms ) ->
+    if ms < 1000
+      ms = ms.toFixed 2
+      return "#{ms} ms"
+
+    if ( secs = ( ms / 1000 ) ) < 60
+      secs = secs.toFixed 2
+      return "#{secs} secs"
+
+    if ( mins = ( secs / 60 ) ) < 60
+      mins = mins.toFixed 2
+      return "#{mins} mins"
 
   loadFile: ( filename ) ->
     cwd = process.cwd()
