@@ -6,8 +6,6 @@ Runner = require( "../runner" ).Runner
 
 class exports.Simple extends Runner
   onStartFile: ( filename ) -> util.puts "#{filename}:"
-  onEndFile: ( filename ) -> util.puts "All done."
-
   onStartClass: ( classname ) -> util.puts "  #{classname}:"
   onEndClass: ( classname ) ->
 
