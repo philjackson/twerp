@@ -85,7 +85,7 @@ class exports.Runner
           summary =
             passed: @total_passed
             failed: @total_failed
-            time: @calcTime( Date.now( ) - @start_time )
+            time:   @calcTime( Date.now( ) - @start_time )
 
           @onRunEnd?( summary )
 
