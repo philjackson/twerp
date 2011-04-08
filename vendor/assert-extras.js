@@ -266,8 +266,8 @@ assert.response = function(server, req, res, msg){
                         response.statusCode,
                         status,
                         msg + 'Invalid response status code.\n'
-                            + '    Expected: [green]{' + status + '}\n'
-                            + '    Got: [red]{' + response.statusCode + '}'
+                            + '    Expected: {' + status + '}\n'
+                            + '    Got: {' + response.statusCode + '}'
                     );
                 }
 
@@ -284,8 +284,8 @@ assert.response = function(server, req, res, msg){
                         assert.ok(
                             eql,
                             msg + colorize('Invalid response header [bold]{' + name + '}.\n'
-                                + '    Expected: [green]{' + expected + '}\n'
-                                + '    Got: [red]{' + actual + '}')
+                                + '    Expected: {' + expected + '}\n'
+                                + '    Got: {' + actual + '}')
                         );
                     }
                 }
