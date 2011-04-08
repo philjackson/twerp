@@ -254,7 +254,7 @@ assert.response = function(server, req, res, msg){
                       : res.body === response.body;
                     assert.ok(
                         eql,
-                        msg + 'Invalid response body.\n'
+                        msg + 'Invalid response body (' + req.url + ').\n'
                             + '    Expected: ' + sys.inspect(res.body) + '\n'
                             + '    Got: ' + sys.inspect(response.body)
                     );
@@ -265,7 +265,7 @@ assert.response = function(server, req, res, msg){
                     assert.equal(
                         response.statusCode,
                         status,
-                        msg + 'Invalid response status code.\n'
+                        msg + 'Invalid response status code (' + req.url + ').\n'
                             + '    Expected: {' + status + '}\n'
                             + '    Got: {' + response.statusCode + '}'
                     );
