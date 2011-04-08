@@ -110,7 +110,10 @@ assert_functions = [
   "isConfigurable"
   "isNotConfigurable"
   "isEnumerable"
-  "isNotEnumerable" ]
+  "isNotEnumerable"
+
+  # espresso
+  "response" ]
 
 for func in assert_functions
   do ( func ) ->
