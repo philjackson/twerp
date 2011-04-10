@@ -65,8 +65,8 @@ class exports.Runner
       @total_failed++
       @onAssertionFail( error )
 
-    obj.on "startTest", @onStartTest
-    obj.on "endTest", @onEndTest
+    obj.on "startTest", (name) => @onStartTest(name)
+    obj.on "endTest", (name, test) => @onEndTest(name, test)
 
     @onStartClass cls
 
