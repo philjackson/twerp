@@ -18,3 +18,8 @@ class exports.Tiny extends Runner
     errs[0] = @red errs[0]
 
     util.print "#{spcr}#{errs.join( spcr )}"
+
+  onRunEnd: ( summary ) =>
+    util.puts "Time taken: #{summary.time}"
+    util.puts "Passed:     #{summary.passed}"
+    util.puts "Failed:     #{summary.failed}"
