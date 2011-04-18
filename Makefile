@@ -1,4 +1,6 @@
-JS=lib/twerptest.js \
+JS=index.js \
+	 lib/twerptest.js \
+	 lib/twerpwebrequest.js \
    lib/runner.js \
 	 lib/runner/index.js \
    lib/runner/simple.js \
