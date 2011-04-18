@@ -7,7 +7,7 @@ class exports.TwerpTest
 
   constructor: ( @options ) ->
     @queue = this.gatherRunnables()
-    @tests = { }
+    @_tests = { }
 
     # emitter for failures/passes
     @ee = new EE()
@@ -30,25 +30,25 @@ class exports.TwerpTest
 
     do ( next_test, capture ) =>
       if previous_name = @current
-        @emit "endTest", previous_name, @tests[ previous_name ]
+        @emit "endTest", previous_name, @_tests[ previous_name ]
         @current = null
 
       # capture the results if we're asked to (results won't be caught
       # for setup, teardown or done
       if capture
-        @tests[ name ] or= { }
+        @_tests[ name ] or= { }
         @current = name
         @emit "startTest", name
 
       this[ name ] ( expected ) =>
         # log the expected (if we allowed it above)
-        @tests[ name ]?.expected = expected
+        @_tests[ name ]?.expected = expected
 
         # run the next one
         @runTest next_test
 
   finish: ( ) ->
-    @finished_callback( @tests )
+    @finished_callback( @_tests )
 
   gatherRunnables: ( ) ->
     runnables = [[ "start", false ]]
@@ -122,20 +122,20 @@ for func in assert_functions
 
       try
         assert[ func ].apply this, args
-        if cur = @tests[ @current ]
+        if cur = @_tests[ @current ]
           cur.passed or= 0
           cur.passed++
         @emit "pass"
       catch e
         # add any errors to the error array
-        if cur = @tests[ @current ]
+        if cur = @_tests[ @current ]
           cur.failed = ( cur.errors or= [ ] ).push e
 
         @emit "fail", e
         errored = true
       finally
         # increase the total run count
-        if cur = @tests[ @current ]
+        if cur = @_tests[ @current ]
           cur.count or= 0
           cur.count++
 
