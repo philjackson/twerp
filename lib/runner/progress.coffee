@@ -26,7 +26,7 @@ class exports.Progress extends Runner
     @testCount++
     @progress()
 
-  progress: ->
+  progress: (e) ->
     if @passCount is @testCount
       status = "Success"
       color = @green
@@ -49,11 +49,15 @@ class exports.Progress extends Runner
     out = "  #{background("#{color(icon)} #{colorName("#{testName} #{dots}")} (#{colorCounts(@passCount)}/#{colorCounts(@testCount)}) #{color(status)}")}\r"
 
     process.stderr.write out
+    if e
+      process.stderr.write "\n"
+      process.stderr.write "  " + e.stack
+      process.stderr.write "\n"
     #process.stderr.flush()
 
   onAssertionFail: ( e ) ->
     @testCount++
-    @progress()
+    @progress(e)
 
   onRunEnd: ( summary ) ->
     process.stderr.write "Time taken: #{summary.time}\n"
