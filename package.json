@@ -5,7 +5,7 @@
   "bugs": { "web" : "http://github.com/philjackson/twerp/issues" },
   "directories": { "lib": "./lib" },
   "bin": { "twerp": "./bin/twerp" },
-  "main": "./index",
+  "main": "./lib/twerptest",
   "repository": { "type": "git",
                   "url": "https://philjackson@github.com/philjackson/twerp.git" },
   "maintainers": [ { "name": "Phil Jackson",
