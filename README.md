@@ -19,18 +19,17 @@ be:
 
         done( 2 )
 
-      testSimpleTwo: ( done ) ->
+      "test simple two": ( done ) ->
         @equal 1, 2
 
         done( 1 )
 
     class exports.AnotherSimpleTest extends TwerpTest
-      testAnotherSimpleOne: ( done ) ->
+      "test - another simple test": ( done ) ->
         @isNull null
         @equal 1, 3 - 2, "Three minus two is one"
 
         done( 2 )
-
 
 Then run with 'twerp' (you can run coffee directly) and you're off:
 
