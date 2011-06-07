@@ -8,7 +8,7 @@ class exports.Tiny extends Runner
   onStartClass: ( classname ) => @classname = classname
   onStartTest: ( testname )   =>
     # strip the test part from the beginning
-    if matches = /^test ?(.+)$/.exec testname
+    if matches = /^test[ _]?(.+)$/.exec testname
       testname = matches[1]
 
     sys.print " #{@classname}: #{testname}: "
