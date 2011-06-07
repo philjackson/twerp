@@ -5,9 +5,13 @@ TwerpTest = require( "../../lib/twerptest" ).TwerpTest
 Runner = require( "../runner" ).Runner
 
 class exports.Tiny extends Runner
-  onStartFile: ( filename )   => util.puts "#{filename}:"
   onStartClass: ( classname ) => @classname = classname
-  onStartTest: ( testname )   => sys.print " #{@classname} #{testname}: "
+  onStartTest: ( testname )   =>
+    # strip the test part from the beginning
+    if matches = /^test ?(.+)$/.exec testname
+      testname = matches[1]
+
+    sys.print " #{@classname}: #{testname}: "
 
   onEndTest: ( testname ) -> util.puts ""
 
