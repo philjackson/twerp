@@ -40,6 +40,6 @@ class exports.Tiny extends Runner
     util.print "#{spcr}#{errs.join( spcr )}\n"
 
   onRunEnd: ( summary ) =>
-    util.puts "Time taken: #{summary.time}"
+    util.puts "\nTime taken: #{summary.time}"
     util.puts "Passed:     #{summary.passed}"
     util.puts "Failed:     #{summary.failed}"
