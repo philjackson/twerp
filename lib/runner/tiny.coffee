@@ -15,7 +15,7 @@ class exports.Tiny extends Runner
     @current_test = testname
 
   onEndTest: ( testname, res ) ->
-    msg = "\r#{@classname}: #{@current_test}: "
+    msg = "\r#{@classname}: #{@current_test}:"
 
     msg += if res.expected
       colour = if res.expected isnt res.count
