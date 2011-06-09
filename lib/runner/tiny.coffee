@@ -14,17 +14,15 @@ class exports.Tiny extends Runner
     sys.print " #{@classname}: #{testname}: "
 
   onEndTest: ( testname, res ) ->
-    msg=""
-
-    if res.expected
+    msg = if res.expected
       colour = if res.expected isnt res.count
         @red
       else
         @green
 
-      msg += " (#{colour res.expected} expected)"
+      " #{@green res.count} of #{colour res.expected}"
 
-    util.puts "#{msg}."
+    util.puts "#{msg}"
 
   onAssertionPass: ( ) => sys.print @green "."
   onAssertionFail: ( e ) =>
