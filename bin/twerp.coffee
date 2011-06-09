@@ -41,4 +41,10 @@ catch e
 # load up a runner
 name   = options.options.runner
 runner = new runners[ name ] options.options, options.arguments
-runner.run( )
+
+try
+  runner.run ( ) ->
+    if runner.total_failed > 0
+      process.exit 1
+catch e
+  process.exit 1
