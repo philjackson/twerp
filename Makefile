@@ -2,6 +2,7 @@ JS=lib/twerptest.js \
    lib/runner.js \
 	 lib/runner/index.js \
    lib/runner/simple.js \
+   lib/runner/progress.js \
    lib/runner/tiny.js
 
 BIN=bin/twerp
