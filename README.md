@@ -41,13 +41,37 @@ To build a test class you need to create a file containing at least
 one class which inherits from TwerpTest.
 
 Any methods defined in your class which begin with "test" will be run
-as tests. Other than "setup" or "teardown" you can call 'private'
-methods what you want. The callback received by each method must be
-called when it's finished and should also take the number of tests you
-expected to run.
+as tests. Other than tests starting with "setup" or "teardown" you can
+call 'private' methods what you want. The callback received by each
+method must be called when it's finished and should also take the
+number of tests you expected to run.
 
-A 'setup' method will run before each test method and 'teardown' will
-run after each test method.
+Any methods that begin with 'setup' will run before each test method
+and any that start with 'teardown' will run after each test
+method. `setup` will always run before other setup functions and
+`teardown` will always run before other teardown methods. So for
+example, with a class that looks like this:
+
+class Hello
+  "teardown webserver":
+  teardown:
+  setup:
+  testOne:
+  "setup database":
+  testTwo:
+
+The execution order will be:
+
+ * setup
+ * setup database
+ * testOne
+ * teardown
+ * teardown webserver
+ * setup
+ * setup database
+ * testTwo
+ * teardown
+ * teardown webserver
 
 Tests will be run in order. No async magic here.
 
