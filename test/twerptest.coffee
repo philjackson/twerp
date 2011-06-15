@@ -3,17 +3,21 @@ TwerpTest = require( "../lib/twerptest" ).TwerpTest
 
 class TwerpItself extends TwerpTest
   setup: ( done ) ->
-    @tornDown       = { }
-    @have_run_setup = 1
+    @have_run_setup = true
 
     done( )
 
   testOne: ( done ) ->
     @equal 1, 1
     @ok @have_run_setup
-    @have_run_one = 1
+    @ok @have_run_second_setup
 
-    done( 3 ) # one more than really run
+    @have_run_setup = false
+    @have_run_second_setup = false
+
+    @have_run_one = true
+
+    done 4 # one more than really run
 
   testTwo: ( done ) ->
     @ok false, "raise exception"
@@ -21,26 +25,34 @@ class TwerpItself extends TwerpTest
     @ok null, "another exception"
     @ok @have_run_one
 
-    done( 4 )
+    @ok @have_run_setup
+    @ok @have_run_second_setup
+
+    @have_run_setup = false
+    @have_run_second_setup = false
+
+    done 6
 
   # this should never run
   invalidTest: ( ) ->
 
-  tearDown: ( done ) ->
-    @tornDown[ @current ] = 1
+  "setup something else": ( done ) ->
+    @have_run_second_setup = true
     done( )
 
 test = new TwerpItself { }
 
 assert.deepEqual test.gatherRunnables( ), [
-  [ "start",    false ]
-  [ "setup",    false ]
-  [ "testOne",  true  ]
-  [ "teardown", false ]
-  [ "setup",    false ]
-  [ "testTwo",  true  ]
-  [ "teardown", false ]
-  [ "finish",   false ]]
+  [ "start",                false ]
+  [ "setup",                false ]
+  [ "setup something else", false ]
+  [ "testOne",              true  ]
+  [ "teardown",             false ]
+  [ "setup",                false ]
+  [ "setup something else", false ]
+  [ "testTwo",              true  ]
+  [ "teardown",             false ]
+  [ "finish",               false ]]
 
 # actually run the test
 
@@ -51,12 +63,12 @@ do ( finished ) ->
     finished.push true
 
     # testOne results
-    assert.equal results.testOne.expected, 3
-    assert.equal results.testOne.count, 2
+    assert.equal results.testOne.expected, 4
+    assert.equal results.testOne.count, 3
 
     # testTwo results
-    assert.equal results.testTwo.expected, 4
-    assert.equal results.testTwo.count, 4
+    assert.equal results.testTwo.expected, 6
+    assert.equal results.testTwo.count, 6
 
     # testTwo raises two errors
     assert.equal results.testTwo.errors.length, 2

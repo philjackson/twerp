@@ -53,6 +53,14 @@ class exports.TwerpTest
   gatherRunnables: ( ) ->
     runnables = [[ "start", false ]]
 
+    # first, grab the setup/teardown functions
+    setups    = [ ]
+    teardowns = [ ]
+
+    for prop, func of this
+      setups.push prop    if /^setup./.exec prop
+      teardowns.push prop if /^teardown./.exec prop
+
     for prop, func of this
       continue unless /^test/.exec prop
 
@@ -61,9 +69,13 @@ class exports.TwerpTest
         re = new RegExp @options.matchFunction
         continue unless re.exec prop
 
-      runnables.push [ "setup",    false ],
-                     [ prop,       true  ],
-                     [ "teardown", false ]
+      # wrap our test method with all of the setup and teardown
+      # functions we found earlier.
+      runnables.push [ "setup",    false ]
+      runnables.push [ setup,      false ] for setup in setups
+      runnables.push [ prop,       true  ]
+      runnables.push [ teardown,   false ] for teardown in teardowns
+      runnables.push [ "teardown", false ]
 
     # once the entire class is done we need to let the runner know so
     # that it can run the next class
