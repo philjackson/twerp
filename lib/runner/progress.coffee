@@ -30,23 +30,17 @@ class exports.Progress extends Runner
     if @passCount is @testCount
       status = "Success"
       color = @green
-      colorName =  (str) -> str
-      colorCounts =  (str) -> str
-      background =  (str) -> str
       icon = "\u2713"
     else
       status = "FAILURE"
       color = @red
-      background = (str) -> "\033[39;0;47m#{str}\033[39;0;48m"
-      colorName =  (str) -> "\033[39;2;47m#{str}\033[39;0;47m"
-      colorCounts =  (str) -> "\033[39;2;47m#{str}\033[39;0;47m"
       icon = "\u2718"
 
     testName = @testName.replace /^test:\s+/, ""
     summary = "(#{@passCount}/#{@testCount})"
     dotCount = 80 - testName.length - summary.length - 14
     dots = new Array(if dotCount < 0 then 0 else dotCount).join(".")
-    out = "  #{background("#{color(icon)} #{colorName("#{testName} #{dots}")} (#{colorCounts(@passCount)}/#{colorCounts(@testCount)}) #{color(status)}")}\r"
+    out = "  #{color icon} #{testName} #{dots} (#{@passCount}/#{@testCount}) #{color(status)}\r"
 
     process.stderr.write out
     if e
