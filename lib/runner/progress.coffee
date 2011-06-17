@@ -9,7 +9,6 @@ class exports.Progress extends Runner
   onStartClass: ( suite ) ->
     @suite = suite
     process.stderr.write "#{suite}\n"
-    #process.stderr.flush()
 
   onEndClass: ( suite ) ->
 
@@ -21,12 +20,12 @@ class exports.Progress extends Runner
   onEndTest: ( testName, res ) ->
     process.stderr.write "\n"
 
-  onAssertionPass: ->
+  onAssertionPass: ( ) ->
     @passCount++
     @testCount++
-    @progress()
+    @progress( )
 
-  progress: (e) ->
+  progress: ( err ) ->
     if @passCount is @testCount
       status = "Success"
       color = @green
@@ -40,18 +39,18 @@ class exports.Progress extends Runner
     summary = "(#{@passCount}/#{@testCount})"
     dotCount = 80 - testName.length - summary.length - 14
     dots = new Array(if dotCount < 0 then 0 else dotCount).join(".")
-    out = "  #{color icon} #{testName} #{dots} (#{@passCount}/#{@testCount}) #{color(status)}\r"
+    out = " #{color icon} #{testName} #{dots}" +
+          " (#{@passCount}/#{@testCount}) #{color(status)}\r"
 
     process.stderr.write out
-    if e
+    if err
       process.stderr.write "\n"
-      process.stderr.write "  " + e.stack
+      process.stderr.write "  " + err.stack
       process.stderr.write "\n"
-    #process.stderr.flush()
 
-  onAssertionFail: ( e ) ->
+  onAssertionFail: ( err ) ->
     @testCount++
-    @progress(e)
+    @progress( err )
 
   onRunEnd: ( summary ) ->
     process.stderr.write "Time taken: #{summary.time}\n"
