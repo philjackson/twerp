@@ -39,7 +39,7 @@ catch e
   process.exit 1
 
 # load up a runner
-name   = options.options.runner
+naame   = options.options.runner
 runner = new runners[ name ] options.options, options.arguments
 
 try

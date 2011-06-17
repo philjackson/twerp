@@ -129,7 +129,7 @@ assert_functions = [
 
 for func in assert_functions
   do ( func ) ->
-    exports.TwerpTest.prototype[ func ] = ( args... ) ->
+    exports.TwerpTest::[ func ] = ( args... ) ->
       errored = false
 
       try

@@ -80,14 +80,14 @@ class exports.Runner
         else
           @onEndFile @current_filename
           @current_filename = null
-          @finished?( results )
 
           summary =
             passed: @total_passed
             failed: @total_failed
             time:   @calcTime( Date.now( ) - @start_time )
 
-          @onRunEnd?( summary )
+          @onRunEnd? summary
+          @finished? results
 
   calcTime: ( ms ) ->
     if ms < 1000
@@ -116,7 +116,9 @@ class exports.Runner
     else
       "#{cwd}/#{filename}"
 
-    for cls, func of require actual
+    obj = require actual
+
+    for cls, func of obj
       # only run the class we were asked to
       if @options.matchClass
         re = new RegExp @options.matchClass
