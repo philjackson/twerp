@@ -160,4 +160,4 @@ for func in assert_functions
 # twerp's own assertions
 assert.isEmptyArray = ( array, message ) ->
   if not array instanceof Array or array.length isnt 0
-    @fail array, [], message, "[[Class]]"
+    @fail array, [], message, "!="
