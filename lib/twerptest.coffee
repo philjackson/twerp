@@ -122,7 +122,10 @@ assert_functions = [
   "isConfigurable"
   "isNotConfigurable"
   "isEnumerable"
-  "isNotEnumerable" ]
+  "isNotEnumerable"
+
+  # twerp
+  "isEmptyArray" ]
 
 for func in assert_functions
   do ( func ) ->
@@ -153,3 +156,8 @@ for func in assert_functions
         if errored and @options[ "exitOnFailure" ]
           @emit "endTest", @current, cur
           process.exit 1
+
+# twerp's own assertions
+assert.isEmptyArray = ( array, message ) ->
+  if not array instanceof Array or array.length isnt 0
+    @fail array, [], message, "[[Class]]"
