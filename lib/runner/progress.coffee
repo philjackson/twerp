@@ -31,7 +31,7 @@ class exports.Progress extends Runner
       color = @green
       icon = "\u2713"
     else
-      status = "FAILURE"
+      status = "Failure"
       color = @red
       icon = "\u2718"
 
