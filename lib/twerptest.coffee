@@ -83,79 +83,83 @@ class exports.TwerpTest
 
     return runnables
 
-# import the assertions from assert
-assert_functions = [
-  # normal
-  "fail"
-  "ok"
-  "equal"
-  "notEqual"
-  "deepEqual"
-  "notDeepEqual"
-  "strictEqual"
-  "notStrictEqual"
-  "throws"
-  "doesNotThrow"
-  "ifError"
+# we export these simply for ease of documentation generation
+exports.assert_functions =
+  "From assert.js": [
+    "fail"
+    "ok"
+    "equal"
+    "notEqual"
+    "deepEqual"
+    "notDeepEqual"
+    "strictEqual"
+    "notStrictEqual"
+    "throws"
+    "doesNotThrow"
+    "ifError"
+  ]
 
-  # extras
-  "isNull"
-  "isNotNull"
-  "isTypeOf"
-  "isNotTypeOf"
-  "isObject"
-  "isFunction"
-  "isString"
-  "isBoolean"
-  "isNumber"
-  "isUndefined"
-  "isNotUndefined"
-  "isArray"
-  "isNaN"
-  "isNotNaN"
-  "match"
-  "noMatch"
-  "isPrototypeOf"
-  "isNotPrototypeOf"
-  "isWritable"
-  "isNotWritable"
-  "isConfigurable"
-  "isNotConfigurable"
-  "isEnumerable"
-  "isNotEnumerable"
+  "From assert-extras.js": [
+    "isNull"
+    "isNotNull"
+    "isTypeOf"
+    "isNotTypeOf"
+    "isObject"
+    "isFunction"
+    "isString"
+    "isBoolean"
+    "isNumber"
+    "isUndefined"
+    "isNotUndefined"
+    "isArray"
+    "isNaN"
+    "isNotNaN"
+    "match"
+    "noMatch"
+    "isPrototypeOf"
+    "isNotPrototypeOf"
+    "isWritable"
+    "isNotWritable"
+    "isConfigurable"
+    "isNotConfigurable"
+    "isEnumerable"
+    "isNotEnumerable"
+  ]
 
-  # twerp
-  "isEmptyArray" ]
+  "From twerp itself": [
+    "isEmptyArray"
+  ]
 
-for func in assert_functions
-  do ( func ) ->
-    exports.TwerpTest::[ func ] = ( args... ) ->
-      errored = false
+for desc, func_list of exports.assert_functions
+  for func in func_list
+    do ( func ) ->
+      exports.TwerpTest::[ func ] = ( args... ) ->
+        errored = false
 
-      try
-        assert[ func ].apply this, args
-        if cur = @_tests[ @current ]
-          cur.passed or= 0
-          cur.passed++
-        @emit "pass"
-      catch e
-        # add any errors to the error array
-        if cur = @_tests[ @current ]
-          cur.failed = ( cur.errors or= [ ] ).push e
+        try
+          assert[ func ].apply this, args
+          if cur = @_tests[ @current ]
+            cur.passed or= 0
+            cur.passed++
+          @emit "pass"
+        catch e
+          # add any errors to the error array
+          if cur = @_tests[ @current ]
+            cur.failed = ( cur.errors or= [ ] ).push e
 
-        @emit "fail", e
-        errored = true
-      finally
-        # increase the total run count
-        if cur = @_tests[ @current ]
-          cur.count or= 0
-          cur.count++
+          @emit "fail", e
+          errored = true
+        finally
+          # increase the total run count
+          if cur = @_tests[ @current ]
+            cur.count or= 0
+            cur.count++
 
-        # if the user put exit-on-failure on the commandline then
-        # here's the place to bail
-        if errored and @options[ "exitOnFailure" ]
-          @emit "endTest", @current, cur
-          process.exit 1
+          # if the user put exit-on-failure on the commandline then
+          # here's the place to bail
+          if errored and @options[ "exitOnFailure" ]
+            @emit "endTest", @current, cur
+            process.exit 1
 
 # twerp's own assertions
 assert.isEmptyArray = ( array, message ) ->
