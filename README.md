@@ -11,7 +11,7 @@ Written with coffeescript in mind so a really simple example use might
 be:
 
     class exports.SimpleTest extends TwerpTest
-      testSimpleOne: ( done ) ->
+      testSomethingSimple: ( done ) ->
         @ok 1
 
         # the optional message will help you when debugging failures
@@ -19,13 +19,13 @@ be:
 
         done( 2 )
 
-      "test simple two": ( done ) ->
+      "test something else simple": ( done ) ->
         @equal 1, 2
 
         done( 1 )
 
     class exports.AnotherSimpleTest extends TwerpTest
-      "test - another simple test": ( done ) ->
+      "test stuff works as one might expect": ( done ) ->
         @isNull null
         @equal 1, 3 - 2, "Three minus two is one"
 
