@@ -11,5 +11,6 @@
   "maintainers": [ { "name": "Phil Jackson",
                      "web": "https://github.com/philjackson" } ],
   "contributors": [ { "name": "Phil Jackson",
-                      "web": "https://github.com/philjackson" } ]
+                      "web": "https://github.com/philjackson" } ],
+  "dependencies": { "coffee-script": ">=1.1.1" }
 }
