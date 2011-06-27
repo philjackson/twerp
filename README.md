@@ -52,13 +52,13 @@ method. `setup` will always run before other setup functions and
 `teardown` will always run before other teardown methods. So for
 example, with a class that looks like this:
 
-class Hello
-  "teardown webserver":
-  teardown:
-  setup:
-  testOne:
-  "setup database":
-  testTwo:
+    class Hello
+      "teardown webserver":
+      teardown:
+      setup:
+      testOne:
+      "setup database":
+      testTwo:
 
 The execution order will be:
 
