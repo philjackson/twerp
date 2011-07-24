@@ -40,12 +40,15 @@ class exports.TwerpTest
         @current = name
         @emit "startTest", name
 
-      this[ name ] ( expected ) =>
-        # log the expected (if we allowed it above)
-        @_tests[ name ]?.expected = expected
+      try
+        this[ name ] ( expected ) =>
+          # log the expected (if we allowed it above)
+          @_tests[ name ]?.expected = expected
 
-        # run the next one
-        @runTest next_test
+          # run the next one
+          @runTest next_test
+      catch error
+        @emit "fail", error
 
   finish: ( ) ->
     @finished_callback( @_tests )
