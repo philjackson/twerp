@@ -22,8 +22,7 @@ clean:
 	coffee -b -c $<
 
 test: $(JS)
-	coffee test/twerptest.coffee && \
-    coffee test/runner.coffee
+	coffee test/twerptest.coffee && coffee test/runner.coffee && echo "ok"
 
 .PHONY: clean test
 
