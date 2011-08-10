@@ -35,14 +35,16 @@ class exports.Progress extends Runner
       color = @red
       icon = "\u2718"
 
-    testName = @testName.replace /^test:\s+/, ""
-    summary = "(#{@passCount}/#{@testCount})"
-    dotCount = 80 - testName.length - summary.length - 14
-    dots = new Array( if dotCount < 0 then 0 else dotCount ).join "."
-    out = " #{color icon} #{testName} #{dots}" +
-          " (#{@passCount}/#{@testCount}) #{color(status)}\r"
+    if @testName
+      testName = @testName.replace /^test:\s+/, ""
+      summary = "(#{@passCount}/#{@testCount})"
+      dotCount = 80 - testName.length - summary.length - 14
+      dots = new Array( if dotCount < 0 then 0 else dotCount ).join "."
+      out = " #{color icon} #{testName} #{dots}" +
+            " (#{@passCount}/#{@testCount}) #{color(status)}\r"
 
-    process.stderr.write out
+      process.stderr.write out
+
     if err
       process.stderr.write "\n"
       process.stderr.write "  " + err.stack
