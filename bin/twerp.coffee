@@ -1,9 +1,15 @@
 # grab the args we want
 
+fs           = require "fs"
 util         = require "util"
 runners      = require "../lib/runner/"
 sys          = require "sys"
 OptionParser = require( "../vendor/parseopt" ).OptionParser
+
+getVersion = ( ) ->
+  package = JSON.parse( fs.readFileSync "package.json", "utf8" )
+
+  return package.version
 
 parser = new OptionParser
 parser.add "--exit-on-failure",
@@ -32,6 +38,9 @@ parser.add "--runner",
   values:  name for name, runner of runners
   help:    "Which runner to use (where a runner controls output)."
 
+parser.add "--version",
+  type: "option"
+
 try
   options = parser.parse( )
 catch e
@@ -41,6 +50,10 @@ catch e
 # load up a runner
 name   = options.options.runner
 runner = new runners[ name ] options.options, options.arguments
+
+if options.options.version
+  console.log getVersion()
+  process.exit 0
 
 try
   runner.run ( ) ->
