@@ -47,7 +47,6 @@ class exports.Runner
 
   runClass: ( [ filename, cls, func ] ) ->
     next = @getNext( )
-    obj  = new func( @options )
 
     if @current_filename isnt filename
       if @current_filename?
@@ -55,6 +54,12 @@ class exports.Runner
 
       @onStartFile filename
       @current_filename = filename
+
+    try
+      obj  = new func( @options )
+    catch error
+      console.log( error.stack )
+      return
 
     # stuff a runner implementor might override.
     obj.on "pass", ( ) =>
