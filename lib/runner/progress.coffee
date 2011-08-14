@@ -36,7 +36,7 @@ class exports.Progress extends Runner
       icon = "\u2718"
 
     if @testName
-      testName = @testName.replace /^test:\s+/, ""
+      testName = @testName.replace /^test:?\s+/, ""
       summary = "(#{@passCount}/#{@testCount})"
       dotCount = 80 - testName.length - summary.length - 14
       dots = new Array( if dotCount < 0 then 0 else dotCount ).join "."
