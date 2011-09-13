@@ -41,7 +41,7 @@ class exports.TwerpTest
         @emit "startTest", name
 
       try
-        this[ name ] ( expected ) =>
+        @[ name ] ( expected ) =>
           # log the expected (if we allowed it above)
           @_tests[ name ]?.expected = expected
 
@@ -49,6 +49,7 @@ class exports.TwerpTest
           @runTest next_test
       catch error
         @emit "fail", error
+        process.exit 1
 
   finish: ( ) ->
     @finished_callback( @_tests )
@@ -85,6 +86,9 @@ class exports.TwerpTest
     runnables.push [ "finish", false ]
 
     return runnables
+
+  log: ( args ) ->
+    console.log( args )
 
 # we export these simply for ease of documentation generation
 exports.assert_functions =
