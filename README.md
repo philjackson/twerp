@@ -46,11 +46,12 @@ call 'private' methods what you want. The callback received by each
 method must be called when it's finished and should also take the
 number of tests you expected to run.
 
-Any methods that begin with 'setup' will run before each test method
+Any methods that begin with "setup" will run before each test method
 and any that start with 'teardown' will run after each test
 method. `setup` will always run before other setup functions and
-`teardown` will always run before other teardown methods. So for
-example, with a class that looks like this:
+`teardown` will always run before other teardown methods. The others
+will run in alphabetical order. So for example, with a class that
+looks like this:
 
     class Hello
       "teardown webserver":
@@ -58,16 +59,22 @@ example, with a class that looks like this:
       setup:
       testOne:
       "setup database":
+      "setup controllers":
+      "setup application":
       testTwo:
 
 The execution order will be:
 
  * setup
+ * setup application
+ * setup controllers
  * setup database
  * testOne
  * teardown
  * teardown webserver
  * setup
+ * setup application
+ * setup controllers
  * setup database
  * testTwo
  * teardown
