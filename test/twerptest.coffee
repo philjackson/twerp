@@ -40,16 +40,21 @@ class TwerpItself extends TwerpTest
     @have_run_second_setup = true
     done( )
 
+  "setup z": ( done ) ->
+    done()
+
 test = new TwerpItself { }
 
 assert.deepEqual test.gatherRunnables( ), [
   [ "start",                false ]
   [ "setup",                false ]
   [ "setup something else", false ]
+  [ "setup z",              false ]
   [ "testOne",              true  ]
   [ "teardown",             false ]
   [ "setup",                false ]
   [ "setup something else", false ]
+  [ "setup z",              false ]
   [ "testTwo",              true  ]
   [ "teardown",             false ]
   [ "finish",               false ]]
