@@ -76,9 +76,9 @@ class exports.TwerpTest
       # wrap our test method with all of the setup and teardown
       # functions we found earlier.
       runnables.push [ "setup",    false ]
-      runnables.push [ setup,      false ] for setup in setups
+      runnables.push [ setup,      false ] for setup in setups.sort()
       runnables.push [ prop,       true  ]
-      runnables.push [ teardown,   false ] for teardown in teardowns
+      runnables.push [ teardown,   false ] for teardown in teardowns.sort()
       runnables.push [ "teardown", false ]
 
     # once the entire class is done we need to let the runner know so
