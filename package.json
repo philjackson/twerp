@@ -2,7 +2,7 @@
   "name": "twerp",
   "description": "Really simple, class based testing framework for node and Coffeescript.",
   "version": "1.0.5",
-  "bugs": { "web" : "http://github.com/philjackson/twerp/issues" },
+  "bugs": { "url" : "http://github.com/philjackson/twerp/issues" },
   "directories": { "lib": "./lib" },
   "bin": { "twerp": "./bin/twerp" },
   "main": "./lib/twerptest",
