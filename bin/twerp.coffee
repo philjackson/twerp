@@ -2,7 +2,6 @@
 
 util         = require "util"
 runners      = require "../lib/runner/"
-sys          = require "sys"
 OptionParser = require( "../vendor/parseopt" ).OptionParser
 
 parser = new OptionParser

@@ -1,4 +1,4 @@
-sys = require "sys"
+util = require "util"
 util = require "util"
 
 TwerpTest = require( "../../lib/twerptest" ).TwerpTest
@@ -28,11 +28,11 @@ class exports.Tiny extends Runner
     util.puts "#{msg}"
 
   onAssertionPass: ( ) =>
-    sys.print "\r#{@classname}: #{@current_test}: #{++@current_test_count} "
+    util.print "\r#{@classname}: #{@current_test}: #{++@current_test_count} "
 
   onAssertionFail: ( e ) =>
     @current_test_count++
-    sys.print "\r#{@classname}: #{@current_test}:"
+    util.print "\r#{@classname}: #{@current_test}:"
     spcr = "\n      "
     errs = e.stack.split( "\n" )
     errs[0] = @red errs[0]

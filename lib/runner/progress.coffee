@@ -1,4 +1,3 @@
-sys = require "sys"
 util = require "util"
 
 TwerpTest = require( "../../lib/twerptest" ).TwerpTest

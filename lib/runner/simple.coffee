@@ -1,4 +1,3 @@
-sys = require "sys"
 util = require "util"
 
 TwerpTest = require( "../../lib/twerptest" ).TwerpTest
@@ -9,7 +8,7 @@ class exports.Simple extends Runner
   onStartClass: ( classname ) -> util.puts "  #{classname}:"
   onEndClass: ( classname ) ->
 
-  onStartTest: ( testname ) -> sys.print "    #{testname}: "
+  onStartTest: ( testname ) -> util.print "    #{testname}: "
   onEndTest: ( testname, res ) =>
     msg = " #{res.passed}/#{res.count} passed"
     if res.expected
@@ -22,7 +21,7 @@ class exports.Simple extends Runner
 
     util.puts "#{msg}."
 
-  onAssertionPass: ( ) => sys.print @green "."
+  onAssertionPass: ( ) => util.print @green "."
   onAssertionFail: ( e ) =>
     spcr = "\n      "
     errs = e.stack.split( "\n" )
