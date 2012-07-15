@@ -10,6 +10,8 @@ Coffeescript.
 Written with coffeescript in mind so a really simple example use might
 be:
 
+    { TwerpTest }    = require "twerp"
+
     class exports.SimpleTest extends TwerpTest
       testSomethingSimple: ( done ) ->
         @ok 1
