@@ -28,7 +28,7 @@ parser.add "--match-function",
 parser.add "--runner",
   type:    "enum"
   default: "progress"
-  values:  name for name, runner of runners
+  values:  ( name for name, runner of runners )
   help:    "Which runner to use (where a runner controls output)."
 
 try

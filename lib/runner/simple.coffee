@@ -12,12 +12,10 @@ class exports.Simple extends Runner
   onEndTest: ( testname, res ) =>
     msg = " #{res.passed}/#{res.count} passed"
     if res.expected
-      colour = if res.expected isnt res.count
-        @red
-      else
-        @green
+      bad_count = res.expected isnt res.count
+      colour = if bad_count then @red else @green
 
-      msg += " (#{colour res.expected} expected)"
+      msg += " (#{colour res.expected} expected#{'!' if bad_count})"
 
     util.puts "#{msg}."
 
