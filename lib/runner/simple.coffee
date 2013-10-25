@@ -15,7 +15,7 @@ class exports.Simple extends Runner
       bad_count = res.expected isnt res.count
       colour = if bad_count then @red else @green
 
-      msg += " (#{colour res.expected} expected#{'!' if bad_count})"
+      msg += " (#{colour res.expected} expected#{if bad_count then '!' else ''})"
 
     util.puts "#{msg}."
 
