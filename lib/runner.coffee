@@ -113,7 +113,7 @@ class exports.Runner
     # find a coffee script, load coffee. If the require throws an
     # exception then so be it.
     if /\.coffee$/.exec( filename ) and not @coffee_loaded
-      require "coffee-script"
+      require "coffee-script/register"
       @coffee_loaded = true
 
     actual = if /^\//.exec filename

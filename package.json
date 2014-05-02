@@ -1,7 +1,7 @@
 {
   "name": "twerp",
   "description": "Really simple, class based testing framework for node and Coffeescript.",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "bugs": { "url" : "http://github.com/philjackson/twerp/issues" },
   "directories": { "lib": "./lib" },
   "bin": { "twerp": "./bin/twerp" },
@@ -12,5 +12,5 @@
                      "web": "https://github.com/philjackson" } ],
   "contributors": [ { "name": "Phil Jackson",
                       "web": "https://github.com/philjackson" } ],
-  "dependencies": { "coffee-script": ">=1.1.1" }
+  "dependencies": { "coffee-script": ">=1.7" }
 }
